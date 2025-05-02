@@ -554,13 +554,13 @@ const ignoreKeywords = ["hunt",
         if (robloxLinks.length === 1) {
             logBox("DETECTED LINK");
             const originalLink = robloxLinks[0].href;
-            logBox(`LAUNCHING`);
-            window.open(originalLink, '_self');
+            logBox(`LAUNCHING: ${originalLink}`);
+            originalLink.click
             logBox(`going for ${originalLink}`)
         }
     }
 
 
-    // Continuously check for the latest message every 50ms
-    setInterval(processLatestMessage, deeelay); // Check the latest message every 50ms
+
+    setInterval(processLatestMessage, deeelay); 
 })();
