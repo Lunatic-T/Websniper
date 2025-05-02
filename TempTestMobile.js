@@ -554,9 +554,10 @@ const ignoreKeywords = ["hunt",
         if (robloxLinks.length === 1) {
             logBox("DETECTED LINK");
             const originalLink = robloxLinks[0].href;
-            logBox(`LAUNCHING: ${originalLink}`);
-            originalLink.click();
-            logBox(`going for ${originalLink}`)
+            logBox(`LAUNCHING`);
+            const deeplink = convertToDeeplink(originalLink);
+            window.open(deeplink, '_self');
+            logBox(`going for ${originalLink} using ${deeplink}`)
         }
     }
 
