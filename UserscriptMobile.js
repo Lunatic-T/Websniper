@@ -545,7 +545,7 @@ function processLatestMessage() {
     const hasIgnoreKeyword = formattedIgnoreKeywords.some(word => normalizedMessage.includes(word.replace(/<space>/g, '')));
 
     if (hasIgnoreKeyword) {
-        logBox("❌ Skipped due to ignore keyword match in message: "${messageContent}");
+        logBox(`❌ Skipped due to ignore keyword match in message: "${messageContent}" `);
         return;
     }
 logBox("processLatestMessage");
