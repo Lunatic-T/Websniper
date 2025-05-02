@@ -555,7 +555,7 @@ const ignoreKeywords = ["hunt",
             logBox("DETECTED LINK");
             const originalLink = robloxLinks[0].href;
             logBox(`LAUNCHING: ${originalLink}`);
-            originalLink.click
+            originalLink.click()
             logBox(`going for ${originalLink}`)
         }
     }
