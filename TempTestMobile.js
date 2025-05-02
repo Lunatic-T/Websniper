@@ -1,6 +1,6 @@
 
 // ==UserScript==
-// @name         SnPer
+// @name         Deepddddd
 // @namespace    http://tampermonkey.net/
 // @version      1.5
 // @description  glitch sniper 
