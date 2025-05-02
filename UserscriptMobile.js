@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Deeplink Converter and Clicker for Latest Roblox Links in Discord
+// @name         Deepddddd
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Converts Roblox share links to deeplinks and clicks them only in the most recent message in Discord, if it is a new message with no other links.
@@ -565,9 +565,8 @@ function processLatestMessage() {
                 window.open(originalLink, '_self');
                 logBox(`going for ${originalLink}`)
             }, deeelay);
-        }
     }
-}
+    }
 
 
     // Continuously check for the latest message every 50ms
