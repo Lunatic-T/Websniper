@@ -1,3 +1,4 @@
+
 // ==UserScript==
 // @name         Deepddddd
 // @namespace    http://tampermonkey.net/
@@ -70,32 +71,32 @@
     let deeelay = 50;
 
 
-function convertToDeeplink(link) {
-    logBox(`CONVERTING LINK 2 DEEPLINK`);
+    function convertToDeeplink(link) {
+        logBox(`CONVERTING LINK 2 DEEPLINK`);
 
-    const regex = /https:\/\/www\.roblox\.com\/share\?code=([a-zA-Z0-9]+)/;
-    const regex2 = /https:\/\/www\.roblox\.com\/games\/15532962292\?privateServerLinkCode=([a-zA-Z0-9]+)/;
+        const regex = /https:\/\/www\.roblox\.com\/share\?code=([a-zA-Z0-9]+)/;
+        const regex2 = /https:\/\/www\.roblox\.com\/games\/15532962292\?privateServerLinkCode=([a-zA-Z0-9]+)/;
 
-    const match = link.match(regex);
-    const match2 = link.match(regex2);
+        const match = link.match(regex);
+        const match2 = link.match(regex2);
 
-    if (match) {
-        const accessCode = match[1];
-        const deeplink = `roblox://navigation/share_links?code=${accessCode}&type=Server&pid=share&is_retargeting=true`;
-        logBox(`CONVERTED DEEPLINK: ${deeplink}`);
-        return deeplink;
+        if (match) {
+            const accessCode = match[1];
+            const deeplink = `roblox://navigation/share_links?code=${accessCode}&type=Server&pid=share&is_retargeting=true`;
+            logBox(`CONVERTED DEEPLINK: ${deeplink}`);
+            return deeplink;
+        }
+
+        if (match2) {
+            const accessCode2 = match2[1];
+            const deeplink2 = `roblox://placeID=15532962292&linkCode=${accessCode2}`;
+            logBox(`CONVERTED DEEPLINK: ${deeplink2}`);
+            return deeplink2;
+        }
+
+        logBox(`Invalid: ${link}`);
+        return null;
     }
-
-    if (match2) {
-        const accessCode2 = match2[1];
-        const deeplink2 = `roblox://placeID=15532962292&linkCode=${accessCode2}`;
-        logBox(`CONVERTED DEEPLINK: ${deeplink2}`);
-        return deeplink2;
-    }
-
-    logBox(`Invalid: ${link}`);
-    return null;
-}
 
     // List of required keywords (at least one must be present)
     const requiredKeywords = ["glich",
@@ -188,8 +189,8 @@ function convertToDeeplink(link) {
     ];
 
 
-// List of ignore keywords (if any are present, skip the message)
-const ignoreKeywords = ["hunt",
+    // List of ignore keywords (if any are present, skip the message)
+    const ignoreKeywords = ["hunt",
         "try",
         "lf",
         "look",
@@ -566,7 +567,7 @@ const ignoreKeywords = ["hunt",
         // Check for ignore keywords
         const hasIgnoreKeyword = formattedIgnoreKeywords.some(keyword => textContent.includes(keyword.toLowerCase()));
 
-        if (!hasRequiredKeyword || hasIgnoreKeyword) {
+        if (hasIgnoreKeyword) {
             return;
         }
 
@@ -583,11 +584,12 @@ const ignoreKeywords = ["hunt",
             logBox(`LAUNCHING`);
             const deeplink = convertToDeeplink(originalLink);
             window.open(deeplink, '_self');
-            logBox(`going for ${originalLink} using ${deeplink}`)
+            logBox(`going for ${originalLink} using ${deeplink}`);
         }
     }
 
 
 
-    setInterval(processLatestMessage, deeelay); 
+    setInterval(processLatestMessage, deeelay);
 })();
+console.log('Hello world');
