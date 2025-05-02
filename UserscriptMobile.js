@@ -67,7 +67,7 @@
     logBox('✅ BY .lunary.');
     // Store the set of processed message IDs
     let processedMessageIds = new Set();
-    let deeelay = 50;
+    let deeelay = 75;
 
 
 
