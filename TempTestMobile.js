@@ -545,8 +545,9 @@ const ignoreKeywords = ["hunt",
         }
 
         const links = latestMessage.querySelectorAll('a');
+        const robloxLinkPattern = /https:\/\/www\.roblox\.com\/share\?code=[\w\d]+&type=Server/;
         const robloxLinks = Array.from(links).filter(link =>
-            link.href.includes('roblox.com/share?code=') ||
+            robloxLinkPattern.test(link.href) ||
             link.href.includes('roblox.com/games/15532962292?privateServerLinkCode=')
         );
 
