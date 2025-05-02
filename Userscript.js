@@ -68,6 +68,32 @@
     // Store the set of processed message IDs
     let processedMessageIds = new Set();
     let deeelay = 50;
+function convertToDeeplink(link) {
+    logBox(`CONVERTING LINK 2 DEEPLINK`);
+
+    const regex = /https:\/\/www\.roblox\.com\/share\?code=([a-zA-Z0-9]+)/;
+    const regex2 = /https:\/\/www\.roblox\.com\/games\/15532962292\?privateServerLinkCode=([a-zA-Z0-9]+)/;
+
+    const match = link.match(regex);
+    const match2 = link.match(regex2);
+
+    if (match) {
+        const accessCode = match[1];
+        const deeplink = `roblox://navigation/share_links?code=${accessCode}&type=Server&pid=share&is_retargeting=true`;
+        logBox(`CONVERTED DEEPLINK: ${deeplink}`);
+        return deeplink;
+    }
+
+    if (match2) {
+        const accessCode2 = match2[1];
+        const deeplink2 = `roblox://placeID=15532962292&linkCode=${accessCode2}`;
+        logBox(`CONVERTED DEEPLINK: ${deeplink2}`);
+        return deeplink2;
+    }
+
+    logBox(`Invalid: ${link}`);
+    return null;
+}
 
 
 
@@ -560,7 +586,7 @@ function processLatestMessage() {
         logBox("DETECTED LINK");
         const originalLink = robloxLinks[0].href;
         logBox(`LAUNCHING`);
-                window.open(originalLink, '_self');
+                window.open(convertToDeeplink(originalLink), '_self');
         logBox(`going for ${originalLink}`)
     }
     }
