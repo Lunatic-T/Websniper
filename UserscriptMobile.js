@@ -565,7 +565,7 @@ logBox("processLatestMessage");
                 logBox(`LAUNCHING`);
                 window.open(originalLink, '_self');
             }, deeelay);
-
+    }}
 
     // Continuously check for the latest message every 50ms
     setInterval(processLatestMessage, deeelay); // Check the latest message every 50ms
