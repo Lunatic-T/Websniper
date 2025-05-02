@@ -1,9 +1,9 @@
 
 // ==UserScript==
-// @name         Deepddddd
+// @name         SnPer
 // @namespace    http://tampermonkey.net/
-// @version      1.0
-// @description  Converts Roblox share links to deeplinks and clicks them only in the most recent message in Discord, if it is a new message with no other links.
+// @version      1.5
+// @description  glitch sniper 
 // @author       You
 // @match        https://discord.com/*
 // @grant        none
