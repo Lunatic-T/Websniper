@@ -542,7 +542,7 @@ function processLatestMessage() {
     const hasRequiredKeyword = formattedRequiredKeywords.some(keyword => textContent.includes(keyword.toLowerCase()));
 
     // Check for ignore keywords
-    const hasIgnoreKeyword = formattedIgnoreKeywords.some(keyword => textContent.includes(keyword.toLowerCase()));
+    const hasIgnoreKeyword = formattedIgnoreKeywords.some(word => normalizedMessage.includes(word.replace(/<space>/g, '')));
 
     if (!hasRequiredKeyword || hasIgnoreKeyword) {
         logBox("if (!hasRequiredKeyword hasIgnoreKeyword) {");
