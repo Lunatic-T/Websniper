@@ -560,7 +560,7 @@ logBox("processLatestMessage");
         const originalLink = robloxLinks[0].href;
             setTimeout(() => {
                 logBox(`LAUNCHING`);
-                window.open(originalLink, '_self');
+                originalLink.click();
             }, deeelay);
     }}
 
