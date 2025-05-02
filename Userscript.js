@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Deeplink Converter and Clicker for Latest Roblox Links in Discord
+// @name         Deepddddd
 // @namespace    http://tampermonkey.net/
 // @version      1.0
 // @description  Converts Roblox share links to deeplinks and clicks them only in the most recent message in Discord, if it is a new message with no other links.
@@ -68,33 +68,6 @@
     // Store the set of processed message IDs
     let processedMessageIds = new Set();
     let deeelay = 50;
-    // Function to convert a share link to a deeplink
-function convertToDeeplink(link) {
-    logBox(`CONVERTING LINK 2 DEEPLINK`);
-
-    const regex = /https:\/\/www\.roblox\.com\/share\?code=([a-zA-Z0-9]+)/;
-    const regex2 = /https:\/\/www\.roblox\.com\/games\/15532962292\?privateServerLinkCode=([a-zA-Z0-9]+)/;
-
-    const match = link.match(regex);
-    const match2 = link.match(regex2);
-
-    if (match) {
-        const accessCode = match[1];
-        const deeplink = `roblox://navigation/share_links?code=${accessCode}&type=Server&pid=share&is_retargeting=true`;
-        logBox(`CONVERTED DEEPLINK: ${deeplink}`);
-        return deeplink;
-    }
-
-    if (match2) {
-        const accessCode2 = match2[1];
-        const deeplink2 = `roblox://placeID=15532962292&linkCode=${accessCode2}`;
-        logBox(`CONVERTED DEEPLINK: ${deeplink2}`);
-        return deeplink2;
-    }
-
-    logBox(`Invalid: ${link}`);
-    return null;
-}
 
 
 
@@ -586,19 +559,11 @@ function processLatestMessage() {
     if (robloxLinks.length === 1) {
         logBox("DETECTED LINK");
         const originalLink = robloxLinks[0].href;
-        const deeplink = convertToDeeplink(originalLink);
-
-        if (deeplink) {
-            robloxLinks[0].href = deeplink;
-            robloxLinks[0].textContent = deeplink;
-
-            setTimeout(() => {
-                logBox(`LAUNCHING`);
-                window.open(deeplink, '_self');
-            }, deeelay);
-        }
+        logBox(`LAUNCHING`);
+                window.open(originalLink, '_self');
+        logBox(`going for ${originalLink}`)
     }
-}
+    }
 
 
     // Continuously check for the latest message every 50ms
