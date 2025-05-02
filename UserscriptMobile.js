@@ -527,6 +527,7 @@ const formattedIgnoreKeywords = formatKeywords(ignoreKeywords);
 
     // Function to process and click only the latest message
 function processLatestMessage() {
+    logBox("processLatestMessage");
     const messageContainer = document.querySelector('[class*="scrollerInner_"]');
     if (!messageContainer) return;
 
@@ -547,9 +548,10 @@ function processLatestMessage() {
     const hasIgnoreKeyword = formattedIgnoreKeywords.some(keyword => textContent.includes(keyword.toLowerCase()));
 
     if (!hasRequiredKeyword || hasIgnoreKeyword) {
+        logBox("if (!hasRequiredKeyword hasIgnoreKeyword) {");
         return;
     }
-
+logBox("processLatestMessage");
     const links = latestMessage.querySelectorAll('a');
     const robloxLinks = Array.from(links).filter(link =>
         link.href.includes('roblox.com/share?code=') ||
@@ -559,11 +561,10 @@ function processLatestMessage() {
     if (robloxLinks.length === 1) {
         logBox("DETECTED LINK");
         const originalLink = robloxLinks[0].href;
-        logBox(`LAUNCHING`);
+            setTimeout(() => {
+                logBox(`LAUNCHING`);
                 window.open(originalLink, '_self');
-        logBox(`going for ${originalLink}`)
-    }
-    }
+            }, deeelay);
 
 
     // Continuously check for the latest message every 50ms
