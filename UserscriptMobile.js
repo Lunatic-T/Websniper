@@ -559,12 +559,9 @@ function processLatestMessage() {
     if (robloxLinks.length === 1) {
         logBox("DETECTED LINK");
         const originalLink = robloxLinks[0].href;
-
-            setTimeout(() => {
-                logBox(`LAUNCHING`);
+        logBox(`LAUNCHING`);
                 window.open(originalLink, '_self');
-                logBox(`going for ${originalLink}`)
-            }, deeelay);
+        logBox(`going for ${originalLink}`)
     }
     }
 
