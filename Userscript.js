@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         we snipe those..!!
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  by .lunary.
 // @author       You
 // @match        https://discord.com/*
@@ -10,6 +10,8 @@
 
 (function() {
     'use strict';
+    const dreamspaceenabled = true
+    const glitchenabled = true
     const audio = new Audio("https://cdn.discordapp.com/attachments/1359827364560765070/1369249891339075594/yt1s.com_-_Vine_Boom_Sound_Effect.mp3?ex=681b2cd5&is=6819db55&hm=02081ecb280c759228d99ce5644e544cc404c249277752f50170a3ca8beeee63&"); // Change URL if desired
     audio.volume = 0.5; // Set volume (0.0 to 1.0)
         // Create console container
@@ -66,14 +68,14 @@
     };
 
     // Initial message
-    logBox('✅ BY .lunary.');
+    logBox('by .lunary.');
     // Store the set of processed message IDs
     let processedMessageIds = new Set();
     let deeelay = 25
     let pleasewait = true
     // Function to convert a share link to a deeplink
 function convertToDeeplink(link) {
-    logBox(`CONVERTING LINK 2 DEEPLINK`);
+    logBox(`deeplink function`);
 
     const regex = /https:\/\/www\.roblox\.com\/share\?code=([a-zA-Z0-9]+)/;
     const regex2 = /https:\/\/www\.roblox\.com\/games\/15532962292\/[^\s?]+(?:\?privateServerLinkCode=([a-zA-Z0-9]+))?/;
@@ -84,14 +86,14 @@ function convertToDeeplink(link) {
     if (match) {
         const accessCode = match[1];
         const deeplink = `roblox://navigation/share_links?code=${accessCode}&type=Server&pid=share&is_retargeting=true`;
-        logBox(`CONVERTED DEEPLINK: ${deeplink}`);
+        logBox(`Converted`);
         return deeplink;
     }
 
     if (match2) {
         const accessCode2 = match2[1];
         const deeplink2 = `roblox://placeID=15532962292&linkCode=${accessCode2}`;
-        logBox(`CONVERTED DEEPLINK: ${deeplink2}`);
+        logBox(`Converted`);
         return deeplink2;
     }
 
@@ -102,7 +104,7 @@ function convertToDeeplink(link) {
 
 
 // List of required keywords (at least one must be present)
-const requiredKeywords = ["glich",
+const requiredG= ["glich",
     "glith",
     "glitc",
     "glict",
@@ -161,7 +163,10 @@ const requiredKeywords = ["glich",
     "gli",
     "gkit",
     "litc",
-    "icth",
+    "icth"
+];
+
+const requiredD = [
     "dream",
     "dreamscap",
     "dremscape",
@@ -548,12 +553,29 @@ const ignoreKeywords = ["hunt",
     "(no)",
     "snipe",
     "cycling",
-    "nvm"
+    "nvm",
+    "so",
+    "memmy",
+    "had",
+    "wont",
+    "dawg",
+    "aint",
+    "totally",
+    "badge",
+    "amount",
+    "general",
+    ">",
+    "glitch?",
+    "is not",
+    "shorturl",
+    "snitch"
 ];
 const formatKeywords = (keywords) => keywords.map(keyword => keyword.replace(/<space>/g, ' '));
 
 // Apply the formatting to both lists
-const formattedRequiredKeywords = formatKeywords(requiredKeywords);
+const formattedRequiredD = formatKeywords(requiredD);
+const formattedRequiredG = formatKeywords(requiredG);
+
 const formattedIgnoreKeywords = formatKeywords(ignoreKeywords);
 let __checkpass__ = false
     // Function to process and click only the latest message
@@ -586,39 +608,61 @@ function processLatestMessage() {
 
     const textContent = messageReal.textContent.toLowerCase();
     // Check for required keywords
-    const hasRequiredKeyword = formattedRequiredKeywords.some(keyword => textContent.includes(keyword.toLowerCase()));
+    const hasRequiredD = formattedRequiredD.some(keyword => textContent.includes(keyword.toLowerCase()));
+    const hasRequiredG = formattedRequiredG.some(keyword => textContent.includes(keyword.toLowerCase()));
 
     // Check for ignore keywords
     const hasIgnoreKeyword = formattedIgnoreKeywords.some(keyword => textContent.includes(keyword.toLowerCase()));
 
     // Detect individual keyword matches
-    const matchedRequired = formattedRequiredKeywords.filter(k => textContent.includes(k.toLowerCase()));
+    const matchedRequiredD = formattedRequiredD.filter(k => textContent.includes(k.toLowerCase()));
+    const matchedRequiredG = formattedRequiredG.filter(k => textContent.includes(k.toLowerCase()));
+
     const matchedIgnored = formattedIgnoreKeywords.filter(k => textContent.includes(k.toLowerCase()));
 
-    if (matchedRequired.length === 0) {
-        console.warn('Message skipped: missing required keywords.', { requiredKeywords: formattedRequiredKeywords });
+    if (matchedRequiredG.length === 0) {
+        console.warn('Message skipped: missing required keywords.', { requiredKeywords: formattedRequiredG });
+    }
+    if (matchedRequiredD.length === 0) {
+        console.warn('Message skipped: missing required keywords.', { requiredKeywords: formattedRequiredD });
     }
 
     if (matchedIgnored.length > 0) {
         console.warn('Message skipped: contains ignored keywords.', { matchedIgnored });
     }
 
-    if (!hasRequiredKeyword || hasIgnoreKeyword || __checkpass__ || pleasewait) {
+    if (!hasRequiredG || !hasRequiredD || hasIgnoreKeyword || __checkpass__ || pleasewait) {
         console.log(messageReal);
         pleasewait = false
         return;
     }
-    logBox("hey i passed the ignore passes");
+
+    if (hasRequiredG) {
+        if (!glitchenabled) return;
+        logBox("Glitch..?");
+    }
+    if (hasRequiredD) {
+        if (!dreamspaceenabled) return;
+        logBox("Dreamspace..?");
+    }
+
     const links = messageReal.querySelectorAll('a');
     const robloxLinkRegex = /https:\/\/www\.roblox\.com\/(?:games\/\d+\/[^\s?]+(?:\?[^ ]*)?|share\?code=[a-z0-9]+[^ ]*)/i;
 
     const robloxLinks = Array.from(links).filter(link => robloxLinkRegex.test(link.href));
     if (robloxLinks.length === 1) {
         logBox("DETECTED LINK");
+        if (hasRequiredG) {
+            if (!glitchenabled) return;
+            logBox("Glitch..?");
+        }
+        if (hasRequiredD) {
+            if (!dreamspaceenabled) return;
+            logBox("Dreamspace..?");
+        }
         __checkpass__ = true
         const originalLink = robloxLinks[0].href;
         const deeplink = convertToDeeplink(originalLink);
-
         if (deeplink) {
             robloxLinks[0].href = deeplink;
             robloxLinks[0].textContent = deeplink;
