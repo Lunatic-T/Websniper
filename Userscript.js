@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         we snipe those..!!
 // @namespace    http://tampermonkey.net/
-// @version      1.1.2
+// @version      1.1.3
 // @description  by .lunary.
 // @author       You
 // @match        https://discord.com/*
@@ -564,9 +564,8 @@ const ignoreKeywords = ["hunt",
     "badge",
     "amount",
     "general",
-    ">",
     "glitch?",
-    "is not",
+    "is<space>not",
     "shorturl",
     "snitch"
 ];
@@ -631,7 +630,7 @@ function processLatestMessage() {
         console.warn('Message skipped: contains ignored keywords.', { matchedIgnored });
     }
 
-    if (!hasRequiredG || !hasRequiredD || hasIgnoreKeyword || __checkpass__ || pleasewait) {
+    if (!hasRequiredG && !hasRequiredD || hasIgnoreKeyword || __checkpass__ || pleasewait) {
         console.log(messageReal);
         pleasewait = false
         return;
