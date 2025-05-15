@@ -1,5 +1,5 @@
 # Userscript glitch sniper 
-Hi, looks like you found my glitch sniper, leave a star if it got you into Glitch Biome!
+Hi, looks like you found my glitch sniper, leave a star if i got you into Glitch Biome!
 
 ## Usage:   
 Download [tampermonkey](https://www.tampermonkey.net/) and click the extension and make a new script
