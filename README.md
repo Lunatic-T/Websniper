@@ -3,7 +3,8 @@ Hi, looks like you found my glitch sniper, leave a star if i got you into Glitch
 
 ## Usage:   
 Get [tampermonkey](https://www.tampermonkey.net/) Extension on your browser then click the extension and make a new script
-Delete everything, Then Paste the Userscript.js, then CTRL + S To Save and move over to the [Sol's rng Biomes channel](https://discord.com/channels/1186570213077041233/1282542323590496277) and make sure the script is running. Once it is running, you can keep the window open while doing whatever you want
+Delete everything, Then Paste the Userscript.js, then CTRL + S To Save and move over to the [Sol's rng Biomes channel](https://discord.com/channels/1186570213077041233/1282542323590496277) and make sure the script is running. Once it is running, you can keep the window open while doing whatever you want 
+this needs to be done on the website version of discord, so make sure to log in 
 ## Efficiency:
 If Bloxstrap is giving you a headache, download roblox from microsoft store, and when you're done, Navigate to settings > Apps > Default Apps > Search Roblox > Change it to "Roblox"
 
