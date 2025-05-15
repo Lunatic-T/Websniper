@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         we snipe those..!!
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.1.1
 // @description  by .lunary.
 // @author       You
 // @match        https://discord.com/*
@@ -68,14 +68,14 @@
     };
 
     // Initial message
-    logBox('by .lunary.');
+    logBox('✅ BY .lunary.');
     // Store the set of processed message IDs
     let processedMessageIds = new Set();
     let deeelay = 25
     let pleasewait = true
     // Function to convert a share link to a deeplink
 function convertToDeeplink(link) {
-    logBox(`deeplink function`);
+    logBox(`CONVERTING LINK 2 DEEPLINK`);
 
     const regex = /https:\/\/www\.roblox\.com\/share\?code=([a-zA-Z0-9]+)/;
     const regex2 = /https:\/\/www\.roblox\.com\/games\/15532962292\/[^\s?]+(?:\?privateServerLinkCode=([a-zA-Z0-9]+))?/;
@@ -637,14 +637,6 @@ function processLatestMessage() {
         return;
     }
 
-    if (hasRequiredG) {
-        if (!glitchenabled) return;
-        logBox("Glitch..?");
-    }
-    if (hasRequiredD) {
-        if (!dreamspaceenabled) return;
-        logBox("Dreamspace..?");
-    }
 
     const links = messageReal.querySelectorAll('a');
     const robloxLinkRegex = /https:\/\/www\.roblox\.com\/(?:games\/\d+\/[^\s?]+(?:\?[^ ]*)?|share\?code=[a-z0-9]+[^ ]*)/i;
