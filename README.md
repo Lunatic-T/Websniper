@@ -1,6 +1,7 @@
 # Userscript glitch sniper 
 Hi, looks like you found my glitch sniper, leave a star if i got you into Glitch Biome!
 
+
 ## Usage:   
 Get [tampermonkey](https://www.tampermonkey.net/) Extension on your browser then click the extension and make a new script
 
@@ -16,3 +17,6 @@ If Bloxstrap is giving you a headache, download roblox from microsoft store, and
 ![image](https://github.com/user-attachments/assets/5e44fb71-b82e-45a3-a1fa-d6ee7138dbab)
 
 and when thats done, play sols rng on the microsoft roblox whenever you're sniping. if you dont open microsoft roblox while sniping it will take 5 more seconds to join, so make sure to keep it open.
+
+
+### contact .lunary. on discord if you need help
