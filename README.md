@@ -1,6 +1,8 @@
 # Userscript glitch sniper 
 Hi, looks like you found my glitch sniper, leave a star if i got you into Glitch Biome!
 
+![image](https://github.com/user-attachments/assets/20e71a2e-2722-4903-8829-941df09cf11f)
+
 
 ## Usage:   
 Get [tampermonkey](https://www.tampermonkey.net/) Extension on your browser then click the extension and make a new script
