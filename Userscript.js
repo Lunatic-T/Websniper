@@ -1,40 +1,138 @@
 // ==UserScript==
 // @name         we snipe those..!!
 // @namespace    http://tampermonkey.net/
-// @version      1.1.3
+// @version      1.2.1
 // @description  by .lunary.
 // @author       You
 // @match        https://discord.com/*
-// @grant        none
+// @grant        GM_xmlhttpRequest
+// @connect      raw.githubusercontent.com
+// @run-at       document-end
 // ==/UserScript==
 
-(function() {
+(async function() {
     'use strict';
-    const dreamspaceenabled = true
-    const glitchenabled = true
-    const audio = new Audio("https://cdn.discordapp.com/attachments/1359827364560765070/1369249891339075594/yt1s.com_-_Vine_Boom_Sound_Effect.mp3?ex=681b2cd5&is=6819db55&hm=02081ecb280c759228d99ce5644e544cc404c249277752f50170a3ca8beeee63&"); // Change URL if desired
-    audio.volume = 0.5; // Set volume (0.0 to 1.0)
-        // Create console container
-    // Create the log box UI
+    let dreamspaceenabled = true
+    let glitchenabled = true
+    let formattedRequiredG = [], formattedRequiredD = [], formattedIgnoreKeywords = [], ignoreKeywords = [], requiredG = [], requiredD = [];
+    const audio = new Audio("put a .mp3 or any other form of audio link here (might have issues playing due to reaching to another site)"); // this is the sound that plays when a link is sniped
+
     const box = document.createElement('div');
     box.id = 'logBox';
     box.style.position = 'fixed';
     box.style.top = '10px';
     box.style.right = '10px';
-    box.style.width = '700px';
-    box.style.maxHeight = '300px';
-    box.style.overflowY = 'auto';
-    box.style.background = 'rgba(20, 20, 20, 0.95)';
-    box.style.color = '#0f0';
+    box.style.width = '500px';
+    box.style.height = '200px'; 
+    box.style.background = 'rgba(100, 100, 100, 0.5)';
+    box.style.backdropFilter = 'blur(8px)';
+    box.style.webkitBackdropFilter = 'blur(8px)';
+    box.style.color = '#FFF';
     box.style.fontFamily = 'monospace';
     box.style.fontSize = '12px';
     box.style.padding = '10px';
-    box.style.border = '1px solid #333';
+    box.style.border = '1px solid #FFF';
     box.style.borderRadius = '8px';
     box.style.zIndex = '999999';
     box.style.cursor = 'move';
-    box.innerHTML = '<strong>🟢 LogBox</strong><br>';
+    box.style.display = 'flex';
+    box.style.flexDirection = 'column';
+    
+    const title = document.createElement('button');
+    title.textContent = 'Debug Box';
+    title.style.padding = '5px 10px';
+    title.style.setProperty('cursor', 'default', 'important');
+
+    const titleheader = document.createElement('div');
+    titleheader.style.position = 'absolute';
+    titleheader.style.top = '10px';
+    titleheader.style.left = '10px';
+    titleheader.style.display = 'flex';
+    titleheader.style.gap = '10px';
+
+    box.appendChild(titleheader);
+    titleheader.appendChild(title);
+
+    const logContent = document.createElement('div');
+    logContent.style.width = '400px';
+    logContent.style.height = '175px'; // less tall
+    logContent.style.paddingBottom = '6px'; // bottom padding so last text isn’t cut off
+    logContent.style.boxSizing = 'border-box'; // include padding in height
+    logContent.style.overflowY = 'auto';
+    logContent.style.color = '#FFF';
+    logContent.style.fontFamily = 'monospace';
+    logContent.style.fontSize = '12px';
+    logContent.style.lineHeight = '1.2em'; // adjust line height if needed
+    logContent.style.display = 'flex';
+    logContent.style.flexDirection = 'column';
+    logContent.style.zIndex = '999999';
+    logContent.style.position = 'absolute';
+    logContent.style.top = '40px';
+    logContent.style.right = '110px';
+
+    box.appendChild(document.createElement('br'));
+
+    const buttonsContainer = document.createElement('div');
+    buttonsContainer.style.position = 'absolute';
+    buttonsContainer.style.top = '10px';
+    buttonsContainer.style.right = '10px';
+    buttonsContainer.style.display = 'flex';
+    buttonsContainer.style.gap = '10px';
+
+    const Gbutton = document.createElement('button');
+    Gbutton.textContent = `glitch: ${glitchenabled}`;
+    Gbutton.style.padding = '5px 10px';
+
+    const Dbutton = document.createElement('button');
+    Dbutton.textContent = `dreamspace: ${dreamspaceenabled}`;
+    Dbutton.style.padding = '5px 10px';
+
+    const clearbtn = document.createElement('button');
+    clearbtn.textContent = 'clear logs';
+    clearbtn.style.padding = '5px 10px';
+
+    box.appendChild(logContent);
+    buttonsContainer.appendChild(Gbutton);
+    buttonsContainer.appendChild(Dbutton);
+    buttonsContainer.appendChild(clearbtn);
+    box.appendChild(buttonsContainer);
     document.body.appendChild(box);
+    const buttonStyle = {
+        background: 'rgba(80, 80, 80, 0.80)',
+        color: '#FFF',
+        fontFamily: 'monospace',
+        fontSize: '12px',
+        border: '1px solid #FFF',
+        borderRadius: '8px',
+        padding: '5px 10px',
+        userSelect: 'none',
+    };
+    Object.assign(Gbutton.style, buttonStyle);
+    Object.assign(Dbutton.style, buttonStyle);
+    Object.assign(clearbtn.style, buttonStyle);
+    Object.assign(title.style, buttonStyle);
+
+
+
+
+    Gbutton.addEventListener('mouseenter', () => {
+        Gbutton.style.background = 'rgba(100, 100, 100, 0.85)';
+    });
+    Gbutton.addEventListener('mouseleave', () => {
+        Gbutton.style.background = 'rgba(80, 80, 80, 0.80)';
+    });
+    Dbutton.addEventListener('mouseenter', () => {
+        Dbutton.style.background = 'rgba(100, 100, 100, 0.85)';
+    });
+    Dbutton.addEventListener('mouseleave', () => {
+        Dbutton.style.background = 'rgba(80, 80, 80, 0.80)';
+    });
+    clearbtn.addEventListener('mouseenter', () => {
+        clearbtn.style.background = 'rgba(100, 100, 100, 0.85)';
+    });
+    clearbtn.addEventListener('mouseleave', () => {
+        clearbtn.style.background = 'rgba(80, 80, 80, 0.80)';
+    });
 
     // Make it draggable
     let dragging = false, offsetX = 0, offsetY = 0;
@@ -55,7 +153,6 @@
         dragging = false;
     });
 
-    // Define the global logBox function
     function logBox(message) {
         const now = new Date();
         const time = now.toLocaleTimeString('en-GB', { hour12: false });
@@ -63,612 +160,190 @@
         const timestamp = `${time}.${milliseconds}`;
         const entry = document.createElement('div');
         entry.textContent = `[${timestamp}] ${message}`;
-        box.appendChild(entry);
-        box.scrollTop = box.scrollHeight;
+        logContent.appendChild(entry);
+        logContent.scrollTop = logContent.scrollHeight;
     };
 
-    // Initial message
+    Gbutton.addEventListener('click', () => {
+        if (glitchenabled) {glitchenabled = false; logBox("No longer sniping glitch")} else {glitchenabled = true; logBox("Sniping glitch");}
+        Gbutton.textContent = `glitch: ${glitchenabled}`;
+    });
+
+    Dbutton.addEventListener('click', () => {
+        if (dreamspaceenabled) {dreamspaceenabled = false; logBox("No longer sniping dreamspace");} else {dreamspaceenabled = true; logBox("Sniping dreamspace");}
+        Dbutton.textContent = `dreamspace: ${dreamspaceenabled}`;
+    });
+
+    clearbtn.addEventListener('click', () => {
+        logContent.innerHTML = '';
+    });
+
+    function fetchJSON(url) {
+      return new Promise((resolve, reject) => {
+        GM_xmlhttpRequest({
+          method: "GET",
+          url: url,
+          headers: {
+            "Accept": "application/json"
+          },
+          onload: function(response) {
+            if (response.status >= 200 && response.status < 300) {
+              try {
+                const data = JSON.parse(response.responseText);
+                resolve(data);
+              } catch (e) {
+                reject(new Error("Failed to parse JSON"));
+              }
+            } else {
+              reject(new Error(`HTTP error! status: ${response.status}`));
+            }
+          },
+          onerror: function(err) {
+            reject(new Error("Network error"));
+          }
+        });
+      });
+    }
+
     logBox('by .lunary.');
-    // Store the set of processed message IDs
+    if (!glitchenabled) {logBox("Glitch will not be sniped (glitchenabled = false)"); return} else {logBox("Glitch will be sniped");}
+    if (!dreamspaceenabled) {logBox("Dreamspace will not be sniped (dreamspaceenabled = false)"); return} else {logBox("Dreamspace will be sniped");}
+
+    // get keyword list (took so long bro i suck at this)
     let processedMessageIds = new Set();
     let deeelay = 25
     let pleasewait = true
-    // Function to convert a share link to a deeplink
-function convertToDeeplink(link) {
-    logBox(`deeplink function`);
 
-    const regex = /https:\/\/www\.roblox\.com\/share\?code=([a-zA-Z0-9]+)/;
-    const regex2 = /https:\/\/www\.roblox\.com\/games\/15532962292\/[^\s?]+(?:\?privateServerLinkCode=([a-zA-Z0-9]+))?/;
+    function convertToDeeplink(link) {
+         const regex = /https:\/\/www\.roblox\.com\/share\?code=([a-zA-Z0-9]+)/;
+         const regex2 = /https:\/\/www\.roblox\.com\/games\/15532962292\/[^\s?]+(?:\?privateServerLinkCode=([a-zA-Z0-9]+))?/;
+         const match = link.match(regex);
+         const match2 = link.match(regex2);
+         if (match) {
+             const accessCode = match[1];
+             const deeplink = `roblox://navigation/share_links?code=${accessCode}&type=Server&pid=share&is_retargeting=true`;
+             logBox(`Converted`);
+             return deeplink;
+         }
+         if (match2) {
+             const accessCode2 = match2[1];
+             const deeplink2 = `roblox://placeID=15532962292&linkCode=${accessCode2}`;
+             logBox(`Converted`);
+             return deeplink2;
+         }
+         logBox(`Invalid: ${link}`);
+         return null;
+     }
+     const formatKeywords = (keywords) => keywords.map(keyword => keyword.replace(/<space>/g, ' '));
+       async function init() {
+           try {
+               const json = await fetchJSON('https://raw.githubusercontent.com/Lunatic-T/Websniper/main/Keywords.json');
+               logBox('fetched keyword data');
+               requiredD = json.requiredD
+               requiredG = json.requiredG
+               ignoreKeywords = json.ignoreKeywords
+               formattedRequiredG = formatKeywords(requiredG);
+               formattedRequiredD = formatKeywords(requiredD);
+               formattedIgnoreKeywords = formatKeywords(ignoreKeywords);
 
-    const match = link.match(regex);
-    const match2 = link.match(regex2);
+               setInterval(processLatestMessage, deeelay);
+           } catch(e) {
+               console.error("Failed to fetch JSON:", e);
+               logBox("Error fetching keywords, aborting.");
+           }
+       }
+     let __checkpass__ = false
+         // Function to process and click only the latest message
+     function processLatestMessage() {
+         const messageContainer = document.querySelector('[class*="scrollerInner_"]');
+         if (!messageContainer) return;
 
-    if (match) {
-        const accessCode = match[1];
-        const deeplink = `roblox://navigation/share_links?code=${accessCode}&type=Server&pid=share&is_retargeting=true`;
-        logBox(`Converted`);
-        return deeplink;
-    }
+         const messages = messageContainer.querySelectorAll('[class^="message_"]');
+         const latestMessage = messages[messages.length - 1];
+         if (!latestMessage) return;
+         let messageReal = latestMessage.querySelector('[class*="messageContent"]');
+         if (!messageReal) {
+             // Try fallback: look for any div with text inside
+             const allDivs = latestMessage.querySelectorAll('div');
+             for (const div of allDivs) {
+                 if (div.textContent && div.textContent.includes('roblox.com')) {
+                     messageReal = div;
+                     break;
+                 }
+             }
+         }
 
-    if (match2) {
-        const accessCode2 = match2[1];
-        const deeplink2 = `roblox://placeID=15532962292&linkCode=${accessCode2}`;
-        logBox(`Converted`);
-        return deeplink2;
-    }
+         if (!messageReal) {
+             console.error('Message content not found');
+             return;
+         }
+         const messageId = latestMessage.getAttribute('data-list-item-id');
+         if (processedMessageIds.has(messageId)) return;
+         processedMessageIds.add(messageId);
 
-    logBox(`Invalid: ${link}`);
-    return null;
-}
+         const textContent = messageReal.textContent.toLowerCase();
+         // Check for required keywords
 
+         let hasRequiredD = formattedRequiredD.some(keyword => textContent.includes(keyword.toLowerCase()));
+         let hasRequiredG = formattedRequiredG.some(keyword => textContent.includes(keyword.toLowerCase()));
 
+         // Check for ignore keywords
+         let hasIgnoreKeyword = formattedIgnoreKeywords.some(keyword => textContent.includes(keyword.toLowerCase()));
 
-// List of required keywords (at least one must be present)
-const requiredG= ["glich",
-    "glith",
-    "glitc",
-    "glict",
-    "glticj",
-    "gltch",
-    "gltc",
-    "glth",
-    "glch",
-    "clitch",
-    "glitch",
-    "gliutch",
-    "error",
-    "eror",
-    "errror",
-    "glutch",
-    "gl;itch",
-    "glih",
-    "6litch",
-    "9litch",
-    "gl1tch",
-    "gl17ch",
-    "glitxh",
-    "gliotch",
-    "GTILTJ",
-    "gtiltj",
-    "jkoin",
-    "glitvh",
-    "glit",
-    "glotch",
-    "G1ITC",
-    "GFFLITCH",
-    "GKITCH",
-    "litch",
-    "glithc",
-    "glictch",
-    "glicth",
-    "glitchh",
-    "gliych",
-    "glichh",
-    "gitch",
-    "gich",
-    "glitfh",
-    "gluch",
-    "glifch",
-    "g,itch",
-    "g.itch",
-    "gkitch",
-    "gkltich",
-    "gkitchh",
-    "gkitvh",
-    "gklitch",
-    "glktich",
-    "gkltch",
-    "glit",
-    "itch",
-    "gli",
-    "gkit",
-    "litc",
-    "icth"
-];
+         // Detect individual keyword matches
+         const matchedRequiredD = formattedRequiredD.filter(k => textContent.includes(k.toLowerCase()));
+         const matchedRequiredG = formattedRequiredG.filter(k => textContent.includes(k.toLowerCase()));
 
-const requiredD = [
-    "dream",
-    "dreamscap",
-    "dremscape",
-    "deamscape",
-    "dreamscape",
-    "dream",
-    "dreem",
-    "dreemscape",
-    "dreamscap",
-    "dreamscape",
-    "drem",
-    "dremscape",
-    "deamscape",
-    "dremescap",
-    "dramscape",
-    "dreaspace",
-    "dreamspac",
-    "dreamspcae",
-    "dreamscae",
-    "dremspace",
-    "dremspae",
-    "dremspac",
-    "dramscap",
-    "deemscape",
-    "dreanscape",
-    "dremmscape",
-    "dreamsapce",
-    "dreamspaec",
-    "dre4mscape",
-    "dre@mscape",
-    "dreamscrape",
-    "dremsapce",
-    "dr34msc4pe",
-    "pink"
-];
+         const matchedIgnored = formattedIgnoreKeywords.filter(k => textContent.includes(k.toLowerCase()));
 
-// List of ignore keywords (if any are present, skip the message)
-const ignoreKeywords = ["hunt",
-    "https://www.roblox.com/share?code=9d338173d1319d46843707848ac6e0d0&type=Server",
-    "hear",
-    "try",
-    "lf",
-    "look",
-    "pls",
-    "please",
-    "gif",
-    "tenor",
-    "need",
-    "want",
-    "bait",
-    "not<space>a",
-    "totally",
-    "pop",
-    "isnt",
-    "isn't",
-    "giv",
-    "dm",
-    "wait",
-    "next",
-    "no<space>glitch",
-    "pay",
-    "no<space>jester",
-    "lucky",
-    "cant<space>join",
-    "spawning<space>soon",
-    "had",
-    "guaranteed",
-    "if<space>we<space>get",
-    "giving",
-    "luck<space>server",
-    "help",
-    "flex",
-    "using",
-    "farm",
-    "post",
-    "saw",
-    "lets<space>cook",
-    "never",
-    "was",
-    "last",
-    "soon",
-    "where",
-    "when",
-    "gamepass",
-    "gift",
-    "skibidi",
-    "rizz",
-    "havent",
-    "haven't",
-    "search",
-    "jk",
-    "find",
-    "aura",
-    "doesnt",
-    "doesn't",
-    "surfer",
-    "cult",
-    "gyat",
-    "garg",
-    "biome<space>random",
-    "gang",
-    "hoping",
-    "hope",
-    "summon",
-    "glitch<space>biome<space>soon",
-    "alpha",
-    "beta",
-    "ping",
-    "era",
-    "ignore",
-    "suffer",
-    "cost",
-    "arua",
-    "areua",
-    "protest",
-    "any<space>real",
-    "msg",
-    "lemme<space>get",
-    "anyone",
-    "anybody",
-    "maybe",
-    "sovereign",
-    "ago",
-    "opression",
-    "oppresion",
-    "who",
-    "why",
-    "miss",
-    "is<space>easy",
-    "message",
-    "gimmie",
-    "spotted<space>the<space>sol",
-    "begging",
-    "streaming",
-    "has<space>there<space>been",
-    "depression",
-    "you<space>do<space>not<space>have",
-    "you<space>dont<space>have",
-    "might",
-    "at<space>this<space>point",
-    "opening",
-    "chat",
-    "send<space>me",
-    "staring",
-    "if<space>i<space>dont<space>get<space>a",
-    "any<space>one",
-    "if<space>someone<space>says",
-    "in<space>the<space>bag",
-    "the<space>server<space>below",
-    "ain't<space>ever",
-    "pleaze",
-    "bug",
-    "if<space>i<space>get",
-    "father",
-    "possible",
-    "how<space>long<space>till",
-    "how<space>long<space>untill",
-    "if<space>i<space>dont<space>get",
-    "if<space>i<space>don't<space>get",
-    "care",
-    "beg",
-    "imaginary",
-    "going<space>to<space>use",
-    "fake<space>glitch",
-    "neeed",
-    "fake",
-    "pray",
-    "profile",
-    "gate",
-    "no<space>more",
-    "report",
-    "without<space>g",
-    "memories",
-    "job",
-    "error<space>code",
-    "didn't",
-    "not",
-    "ask",
-    "gimme",
-    "br<space>or<space>sc",
-    "long<space>gone",
-    "talk<space>and<space>chill",
-    "random<space>link",
-    "random",
-    "ty<space>for",
-    "eyes",
-    "hanting",
-    "if<space>you<space>have",
-    "if<space>u<space>have",
-    "pwease",
-    "appears",
-    "someone<space>get",
-    "watching",
-    "superstar",
-    "someone<space>tell",
-    "gonna<space>use",
-    "pulled",
-    "fixed",
-    "ban",
-    "faking",
-    "click",
-    "mroe",
-    "faek",
-    "tysm",
-    "lied",
-    "lying",
-    "pliz",
-    "feel",
-    "stfu",
-    "children",
-    "rolls",
-    "rune<space>biome",
-    "dual",
-    "sc<space>or<space>br",
-    "jester<space>chance",
-    "prob<space>a<space>glitch",
-    "if<space>your<space>server",
-    "queue",
-    "witness",
-    "thank",
-    "send<space>glitch",
-    "doing",
-    "jester?",
-    "hello",
-    "hi",
-    "test",
-    "wrong",
-    "watting",
-    "ebddf98b67ed234591faf27f60fc1173",
-    "waiting",
-    "sailor",
-    "screen",
-    "overshoot",
-    "slick",
-    "wanna",
-    "don\u2019t<space>join",
-    "d351817a9ecca94990239e27102bf9dc",
-    "1adeeadc16713a4999a9d34f1ead0cf1",
-    "ples",
-    "scam",
-    "plis",
-    "not<space>here",
-    "bailt",
-    "bot",
-    "0714c5687555f64f84eb7d224f014803",
-    "66e2cc4cebf4464786f210c6b2f42d53",
-    "(n0/t<space>real[ly)",
-    "fuck",
-    "macro",
-    "wont",
-    "super<space>star",
-    "stigma",
-    "spotted<space>the<space>sol",
-    "told<space>me",
-    "fek",
-    "https://www.roblox.com/share?code=5dcdf8d9222a0d45bba71c8c55d2471e&type=Server",
-    "global",
-    "gear<space>a",
-    "gear<space>b",
-    "same<space>link",
-    "glitter",
-    "glitch?",
-    "dm me",
-    "hunting",
-    "repost",
-    "lucky",
-    "any",
-    "corruption",
-    "hell",
-    "snow",
-    "rain",
-    "null",
-    "normal",
-    "wind",
-    "starfall",
-    "luck",
-    "stacked",
-    "oppression",
-    "memory",
-    "oblivion",
-    "candle",
-    "react",
-    "lose",
-    "how<space>many",
-    "what",
-    "dutchman",
-    "instead<space>of",
-    "any<space>glitch",
-    "history",
-    "text",
-    "abyssal",
-    "seen",
-    "sandstorm",
-    "sand<space>storm",
-    "jester",
-    "rich",
-    "haven\u2019t",
-    "spam",
-    "animations",
-    "even",
-    "TYSM",
-    "RADIANT",
-    "global",
-    "cooked",
-    "dont<space>join",
-    "script",
-    "hack",
-    "make",
-    "gone",
-    "just<space>kidding",
-    "Js<space>kidding",
-    "jst<space>kidding",
-    "trade",
-    "trading",
-    "ritual",
-    "pinch",
-    "developers",
-    "stop",
-    "orange",
-    "astraldi",
-    "astrald",
-    "asstrald",
-    "hi",
-    "ended",
-    "wild",
-    "double",
-    "sniper",
-    "graveyard",
-    "grave",
-    "hallaween",
-    "failed",
-    "afk",
-    "quest",
-    "lately",
-    "since",
-    "manifestation",
-    "present",
-    "transpire",
-    "riany",
-    "pumpkin",
-    "chances",
-    "chance",
-    "someone<space>got",
-    "dont<space>deserve",
-    "pleez",
-    "dupe",
-    "pump",
-    "wen",
-    "not<space>glitch",
-    "bailt",
-    "andrord",
-    "nick",
-    "android",
-    "can<space>someone<space>send",
-    "slide",
-    "yard",
-    "dumbass",
-    "strange<space>controller",
-    "biome<space>randomizer",
-    "archangel",
-    "got<space>in<space>glitch",
-    "use<space>in<space>glitch",
-    "snipes",
-    "s1",
-    "s2",
-    "bloodlust",
-    "NO",
-    "nighttime",
-    "real<space>glitch?",
-    "owner",
-    "beit",
-    "||not||",
-    "spelt",
-    "change",
-    "position",
-    "not",
-    "is<space>there",
-    "lie",
-    "clitch",
-    "method",
-    "impeached",
-    "leave",
-    "grinding",
-    "(no)",
-    "snipe",
-    "cycling",
-    "nvm",
-    "so",
-    "memmy",
-    "had",
-    "wont",
-    "dawg",
-    "aint",
-    "totally",
-    "badge",
-    "amount",
-    "general",
-    "glitch?",
-    "is<space>not",
-    "shorturl",
-    "snitch"
-];
-const formatKeywords = (keywords) => keywords.map(keyword => keyword.replace(/<space>/g, ' '));
+         if (matchedRequiredG.length === 0) {
+             console.warn('Message skipped: missing required keywords.', { requiredKeywords: formattedRequiredG });
+         }
+         if (matchedRequiredD.length === 0) {
+             console.warn('Message skipped: missing required keywords.', { requiredKeywords: formattedRequiredD });
+         }
 
-// Apply the formatting to both lists
-const formattedRequiredD = formatKeywords(requiredD);
-const formattedRequiredG = formatKeywords(requiredG);
+         if (matchedIgnored.length > 0) {
+             console.warn('Message skipped: contains ignored keywords.', { matchedIgnored });
+         }
 
-const formattedIgnoreKeywords = formatKeywords(ignoreKeywords);
-let __checkpass__ = false
-    // Function to process and click only the latest message
-function processLatestMessage() {
-    const messageContainer = document.querySelector('[class*="scrollerInner_"]');
-    if (!messageContainer) return;
+         if (!hasRequiredG && !hasRequiredD || hasIgnoreKeyword || __checkpass__ || pleasewait) {
+             console.log(messageReal);
+             pleasewait = false
+             return;
+         }
 
-    const messages = messageContainer.querySelectorAll('[class^="message_"]');
-    const latestMessage = messages[messages.length - 1];
-    if (!latestMessage) return;
-    let messageReal = latestMessage.querySelector('[class*="messageContent"]');
-    if (!messageReal) {
-        // Try fallback: look for any div with text inside
-        const allDivs = latestMessage.querySelectorAll('div');
-        for (const div of allDivs) {
-            if (div.textContent && div.textContent.includes('roblox.com')) {
-                messageReal = div;
-                break;
-            }
-        }
-    }
+         const links = messageReal.querySelectorAll('a');
+         const robloxLinkRegex = /https:\/\/www\.roblox\.com\/(?:games\/\d+\/[^\s?]+(?:\?[^ ]*)?|share\?code=[a-z0-9]+[^ ]*)/i;
 
-    if (!messageReal) {
-        console.error('Message content not found');
-        return;
-    }
-    const messageId = latestMessage.getAttribute('data-list-item-id');
-    if (processedMessageIds.has(messageId)) return;
-    processedMessageIds.add(messageId);
-
-    const textContent = messageReal.textContent.toLowerCase();
-    // Check for required keywords
-    const hasRequiredD = formattedRequiredD.some(keyword => textContent.includes(keyword.toLowerCase()));
-    const hasRequiredG = formattedRequiredG.some(keyword => textContent.includes(keyword.toLowerCase()));
-
-    // Check for ignore keywords
-    const hasIgnoreKeyword = formattedIgnoreKeywords.some(keyword => textContent.includes(keyword.toLowerCase()));
-
-    // Detect individual keyword matches
-    const matchedRequiredD = formattedRequiredD.filter(k => textContent.includes(k.toLowerCase()));
-    const matchedRequiredG = formattedRequiredG.filter(k => textContent.includes(k.toLowerCase()));
-
-    const matchedIgnored = formattedIgnoreKeywords.filter(k => textContent.includes(k.toLowerCase()));
-
-    if (matchedRequiredG.length === 0) {
-        console.warn('Message skipped: missing required keywords.', { requiredKeywords: formattedRequiredG });
-    }
-    if (matchedRequiredD.length === 0) {
-        console.warn('Message skipped: missing required keywords.', { requiredKeywords: formattedRequiredD });
-    }
-
-    if (matchedIgnored.length > 0) {
-        console.warn('Message skipped: contains ignored keywords.', { matchedIgnored });
-    }
-
-    if (!hasRequiredG && !hasRequiredD || hasIgnoreKeyword || __checkpass__ || pleasewait) {
-        console.log(messageReal);
-        pleasewait = false
-        return;
-    }
-
-    const links = messageReal.querySelectorAll('a');
-    const robloxLinkRegex = /https:\/\/www\.roblox\.com\/(?:games\/\d+\/[^\s?]+(?:\?[^ ]*)?|share\?code=[a-z0-9]+[^ ]*)/i;
-
-    const robloxLinks = Array.from(links).filter(link => robloxLinkRegex.test(link.href));
-    if (robloxLinks.length === 1) {
-        logBox("DETECTED LINK");
-        if (hasRequiredG) {
-            if (!glitchenabled) return;
-            logBox("Glitch..?");
-        }
-        if (hasRequiredD) {
-            if (!dreamspaceenabled) return;
-            logBox("Dreamspace..?");
-        }
-        __checkpass__ = true
-        const originalLink = robloxLinks[0].href;
-        const deeplink = convertToDeeplink(originalLink);
-        if (deeplink) {
-            robloxLinks[0].href = deeplink;
-            robloxLinks[0].textContent = deeplink;
-            window.open(deeplink, '_self');
-            logBox(`launched "${deeplink}"`);
-            audio.play().catch(err => {
-            console.warn("Sound playback failed (usually due to browser autoplay policy):", err);
-            });
-            setTimeout(() => {
-                 __checkpass__ = false
-            }, 3000);
-        }
-    }
-}
-
-
-    // Continuously check for the latest message every 50ms
-    setInterval(processLatestMessage, deeelay); // Check the latest message every 50ms
+         const robloxLinks = Array.from(links).filter(link => robloxLinkRegex.test(link.href));
+         if (robloxLinks.length === 1) {
+             if (hasRequiredG) {
+                 if (!glitchenabled) {logBox("ignored glitch"); return}
+                 logBox("Glitch..?");
+             }
+             if (hasRequiredD) {
+                 if (!dreamspaceenabled) {logBox("ignored dreamspace"); return;}
+                 logBox("Dreamspace..?");
+             }
+             __checkpass__ = true
+             const originalLink = robloxLinks[0].href;
+             const deeplink = convertToDeeplink(originalLink);
+             if (deeplink) {
+                 robloxLinks[0].href = deeplink;
+                 robloxLinks[0].textContent = deeplink;
+                 window.open(deeplink, '_self');
+                 window.open(deeplink, '_self');
+                 window.open(deeplink, '_self');
+                 logBox(`Launched in client`)
+                 audio.play().catch(err => {
+                 console.warn("Sound playback failed (usually due to browser autoplay policy):", err);
+                 });
+                 setTimeout(() => {
+                      __checkpass__ = false
+                 }, 3000);
+             }
+         }
+     }
+    init();
 })();
