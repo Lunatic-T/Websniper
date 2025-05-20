@@ -13,12 +13,18 @@ Then make sure the script is running. Once it is running, you can keep the windo
 
 ### this needs to be done on the website version of discord, so make sure to log in 
 
-## Efficiency:
-If Bloxstrap is giving you a headache, download roblox from microsoft store, and when you're done, Navigate to settings > Apps > Default Apps > Search Roblox > Change it to "Roblox"
+For Joining Fast you MUST download roblox from microsoft store, and when you're done, Navigate to settings > Apps > Default Apps > Search Roblox > Change it to "Roblox"
 
 ![image](https://github.com/user-attachments/assets/5e44fb71-b82e-45a3-a1fa-d6ee7138dbab)
 
-and when thats done, play sols rng on the microsoft roblox whenever you're sniping. if you dont open microsoft roblox while sniping it will take 5 more seconds to join, so make sure to keep it open.
+and when thats done, stay in the home page when you start sniping. if you dont open microsoft roblox while sniping it will take 5 more seconds to join, so make sure to keep it open.
 
+dont play sol's rng on the microsoft ver of roblox because it will delay the join for 1-2s
+
+# SAFETY
+
+In order to stay safe, i released a seperate version of this that includes gameid detection.
+
+you can find it [here](https://github.com/Lunatic-T/WebSniperGameId)
 
 ### contact .lunary. on discord if you need help
