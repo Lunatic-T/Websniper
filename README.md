@@ -13,7 +13,7 @@ Then make sure the script is running. Once it is running, you can keep the windo
 
 ### this needs to be done on the website version of discord, so make sure to log in 
 
-For Joining Fast you MUST download roblox from microsoft store, and when you're done, Navigate to settings > Apps > Default Apps > Search Roblox > Change it to "Roblox" (for win10 dm .lunary.)
+For Joining Fast you MUST download roblox from microsoft store, and when you're done, Navigate to settings > Apps > Default Apps > Search Roblox > Change it to "Roblox" (for windows 10 dm .lunary.)
 
 ![image](https://github.com/user-attachments/assets/5e44fb71-b82e-45a3-a1fa-d6ee7138dbab)
 
