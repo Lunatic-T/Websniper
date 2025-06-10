@@ -63,7 +63,9 @@
          "gltich",
          "glot",
          "gitc",
-         "itch"
+         "itch",
+         "tich",
+         "tch<space>biom"
   ], 
   "requiredD": [
          "dream",
@@ -105,7 +107,12 @@
          "raemsp",
          "reamsc",
          "raemsc",
-         "pink"
+         "pink",
+         "dram",
+         "mspace",
+         "mscape",
+         "eamscape",
+         "eamscape"
   ],
   "ignoreKeywords": [
          "hunt",
@@ -499,6 +506,9 @@
          "mull",
          "currup",
          "heck",
-         "storm"
+         "storm",
+         "they",
+         "mari",
+         "raniy"
      ]
 }
