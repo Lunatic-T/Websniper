@@ -65,7 +65,8 @@
          "gitc",
          "itch",
          "tich",
-         "tch<space>biom"
+         "tch<space>biom",
+         "tched"
   ], 
   "requiredD": [
          "dream",
