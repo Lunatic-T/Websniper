@@ -25,6 +25,7 @@ dont play sol's rng on the microsoft ver of roblox because it will delay the joi
 
 ~~In order to stay safe, i released a seperate version of this that includes gameid detection.~~
 scrapped, now its in python instead of being the same.
-you can find it [here](https://github.com/Lunatic-T/PySniper)
+you can find it ~~[here](https://github.com/Lunatic-T/PySniper)~~ lowkey privated for being too good rn ill release it when nexus releases prolly
+sorry 
 
 ### contact .lunary. on discord if you need help
