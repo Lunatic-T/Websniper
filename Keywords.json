@@ -122,11 +122,9 @@
          "ester",
          "jest",
          "jeeste",
-         "obliv",
+         "obli",
          "<space>op",
-         "ivion",
-         "void",
-         "<space>vc"
+         "ivion"
   ],
 
   "ignoreKeywords": [
@@ -387,7 +385,6 @@
          "seen",
          "sandstorm",
          "sand<space>storm",
-         "jester",
          "rich",
          "haven\u2019t",
          "spam",
