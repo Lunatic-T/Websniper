@@ -115,6 +115,20 @@
          "eamscape",
          "eamscape"
   ],
+
+  "requiredJ": [
+         "jester",
+         "jeter",
+         "ester",
+         "jest",
+         "jeeste",
+         "obliv",
+         "<space>op",
+         "ivion",
+         "void",
+         "<space>vc"
+  ],
+
   "ignoreKeywords": [
          "hunt",
          "https://www.roblox.com/share?code=9d338173d1319d46843707848ac6e0d0&type=Server",
