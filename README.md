@@ -1,11 +1,11 @@
-# Sol's Rng glitch sniper 
+# Sol's RNG Sniper
 Hi, looks like you found my glitch sniper, leave a star if i got you into Glitch Biome!
 
 ![image](https://github.com/user-attachments/assets/20e71a2e-2722-4903-8829-941df09cf11f)
 
 i wont be updating this anymore unless something is needed 
 ## Usage:   
-Get [tampermonkey](https://www.tampermonkey.net/) Extension on your browser then click the extension and make a new script
+Get [tampermonkey](https://www.tampermonkey.net/) Extension on your browser then click the extension and make a new script (if it says enable dev mode in extensions inside the tampermonkey ui, do it.)
 
 Delete everything, Then Paste the Userscript.js, then CTRL + S To Save and move over to the [Sol's rng Biomes channel](https://discord.com/channels/1186570213077041233/1282542323590496277) 
 
