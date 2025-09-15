@@ -3,7 +3,7 @@ Hi, looks like you found my glitch sniper, leave a star if i got you into Glitch
 
 ![image](https://github.com/user-attachments/assets/20e71a2e-2722-4903-8829-941df09cf11f)
 
-i wont be updating this anymore unless something is needed
+i wont be updating this anymore unless something is needed 
 ## Usage:   
 Get [tampermonkey](https://www.tampermonkey.net/) Extension on your browser then click the extension and make a new script
 
@@ -24,4 +24,4 @@ dont play sol's rng on the microsoft ver of roblox because it will delay the joi
 # Discord Server
 > https://discord.gg/7zuFCT8kYJ
 
-### contact .lunary. on discord if you need help
+### contact .lunary. on discord if you need help (bugs, suggestions, anything. i need feedback!)
