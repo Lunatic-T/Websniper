@@ -7,7 +7,9 @@ i wont be updating this anymore unless something is needed
 
 
 ## Usage:   
-Get [tampermonkey](https://www.tampermonkey.net/) Extension on your browser then click the extension and make a new script (if it says enable dev mode in extensions inside the tampermonkey ui, do it.)
+Get [tampermonkey](https://www.tampermonkey.net/) Extension on your browser then click the extension and make a new script
+
+(if it says enable dev mode in extensions inside the tampermonkey ui, do it.)
 
 Delete everything, Then Paste the Userscript.js text in it, then hit CTRL + S to save and move over to the [Sol's rng Biomes channel](https://discord.com/channels/1186570213077041233/1282542323590496277) on the discord website.
 
