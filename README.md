@@ -20,12 +20,7 @@ Then make sure the script is running. Once it is running, you can keep the windo
 
 ## Sniping:
 
-~~For Joining Fast you MUST download roblox from microsoft store, and when you're done, Navigate to settings > Apps > Default Apps > Search Roblox > Change it to "Roblox" (for windows 10 dm .lunary. on discord bcs its complicated)~~
-![image](https://github.com/user-attachments/assets/5e44fb71-b82e-45a3-a1fa-d6ee7138dbab)
-
-### **Roblox Discontinued Roblox UWP. The information above is no longer accurate.**
-
-and when thats done, u can either minimize the discord tab or just keep it in the background and it will snipe for you. 
+You can either minimize the discord tab or just keep it in the background and it will snipe for you. 
 
 Don't play Sol's RNG while sniping, it will delay the joining by 1-5 seconds because it unloads the game first before joining.
 
