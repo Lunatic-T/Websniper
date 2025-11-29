@@ -115,7 +115,11 @@
          "eamscape",
          "eamscape"
   ],
-
+  "requiredC": [
+         "cyber",
+         "bersp",
+         "rspace"
+  ],
   "requiredJ": [
          "jester",
          "jeter",
