@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         we snipe those..!!
+// @name         websniper-cyberspace-update
 // @namespace    http://tampermonkey.net/
 // @version      1.2.1
-// @description  by .lunary.
-// @author       You
+// @description  hi, thanks for using my sniper <3, if you have issues dm me or join this server for more of my projects: discord.gg/7zuFCT8kYJ
+// @author       .lunary. on dc (dms open)
 // @match        https://discord.com/*
 // @grant        GM_xmlhttpRequest
 // @connect      raw.githubusercontent.com
@@ -13,104 +13,138 @@
 (async function() {
     'use strict';
     let dreamspaceenabled = true
+    let cyberspaceenabled = true
     let glitchenabled = true
-    let formattedRequiredG = [], formattedRequiredD = [], formattedIgnoreKeywords = [], ignoreKeywords = [], requiredG = [], requiredD = [];
+    let formattedRequiredG = [], formattedRequiredD = [], formattedRequiredC = [], formattedIgnoreKeywords = [], ignoreKeywords = [], requiredG = [], requiredD = [], requiredC = [];
     const audio = new Audio("put a .mp3 or any other form of audio link here (might have issues playing due to reaching to another site)"); // this is the sound that plays when a link is sniped
 
+    // --- outer box (keep yours or replace with this) ---
     const box = document.createElement('div');
     box.id = 'logBox';
-    box.style.position = 'fixed';
-    box.style.top = '10px';
-    box.style.right = '10px';
-    box.style.width = '500px';
-    box.style.height = '200px'; 
-    box.style.background = 'rgba(100, 100, 100, 0.5)';
-    box.style.backdropFilter = 'blur(8px)';
-    box.style.webkitBackdropFilter = 'blur(8px)';
-    box.style.color = '#FFF';
-    box.style.fontFamily = 'monospace';
-    box.style.fontSize = '12px';
-    box.style.padding = '10px';
-    box.style.border = '1px solid #FFF';
-    box.style.borderRadius = '8px';
-    box.style.zIndex = '999999';
-    box.style.cursor = 'move';
-    box.style.display = 'flex';
-    box.style.flexDirection = 'column';
-    
-    const title = document.createElement('button');
+    Object.assign(box.style, {
+      position: 'fixed',
+      top: '10px',
+      right: '10px',
+      width: '600px',
+      height: '250px',
+      background: 'rgba(100, 100, 100, 0.5)',
+      backdropFilter: 'blur(8px)',
+      WebkitBackdropFilter: 'blur(8px)',
+      color: '#FFF',
+      fontFamily: 'monospace',
+      fontSize: '12px',
+      padding: '10px',
+      border: '1px solid #FFF',
+      borderRadius: '8px',
+      zIndex: '999999',
+      cursor: 'move',
+      display: 'flex',
+      flexDirection: 'column',
+      boxSizing: 'border-box' // make padding count toward width/height
+    });
+
+    // --- top header row (title + buttons on one line) ---
+    const headerRow = document.createElement('div');
+    Object.assign(headerRow.style, {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      width: '100%',
+      gap: '8px',
+      boxSizing: 'border-box'
+    });
+
+    // title (left side)
+    const title = document.createElement('div');
     title.textContent = 'Debug Box';
-    title.style.padding = '5px 10px';
-    title.style.setProperty('cursor', 'default', 'important');
+    Object.assign(title.style, {
+      padding: '5px 10px',
+      cursor: 'default',
+      userSelect: 'none',
+      display: 'inline-block'
+    });
 
-    const titleheader = document.createElement('div');
-    titleheader.style.position = 'absolute';
-    titleheader.style.top = '10px';
-    titleheader.style.left = '10px';
-    titleheader.style.display = 'flex';
-    titleheader.style.gap = '10px';
+    // buttons container (right side of header)
+    const headerButtons = document.createElement('div');
+    Object.assign(headerButtons.style, {
+      display: 'flex',
+      gap: '8px',
+      alignItems: 'center'
+    });
 
-    box.appendChild(titleheader);
-    titleheader.appendChild(title);
-
-    const logContent = document.createElement('div');
-    logContent.style.width = '400px';
-    logContent.style.height = '175px'; // less tall
-    logContent.style.paddingBottom = '6px'; // bottom padding so last text isn’t cut off
-    logContent.style.boxSizing = 'border-box'; // include padding in height
-    logContent.style.overflowY = 'auto';
-    logContent.style.color = '#FFF';
-    logContent.style.fontFamily = 'monospace';
-    logContent.style.fontSize = '12px';
-    logContent.style.lineHeight = '1.2em'; // adjust line height if needed
-    logContent.style.display = 'flex';
-    logContent.style.flexDirection = 'column';
-    logContent.style.zIndex = '999999';
-    logContent.style.position = 'absolute';
-    logContent.style.top = '40px';
-    logContent.style.right = '110px';
-
-    box.appendChild(document.createElement('br'));
-
-    const buttonsContainer = document.createElement('div');
-    buttonsContainer.style.position = 'absolute';
-    buttonsContainer.style.top = '10px';
-    buttonsContainer.style.right = '10px';
-    buttonsContainer.style.display = 'flex';
-    buttonsContainer.style.gap = '10px';
-
+    // create your toggle buttons (Gbutton, Dbutton, Cbutton) and clear
     const Gbutton = document.createElement('button');
     Gbutton.textContent = `glitch: ${glitchenabled}`;
-    Gbutton.style.padding = '5px 10px';
-
     const Dbutton = document.createElement('button');
     Dbutton.textContent = `dreamspace: ${dreamspaceenabled}`;
-    Dbutton.style.padding = '5px 10px';
-
+    const Cbutton = document.createElement('button');
+    Cbutton.textContent = `cyberspace: ${cyberspaceenabled}`;
     const clearbtn = document.createElement('button');
     clearbtn.textContent = 'clear logs';
-    clearbtn.style.padding = '5px 10px';
 
-    box.appendChild(logContent);
-    buttonsContainer.appendChild(Gbutton);
-    buttonsContainer.appendChild(Dbutton);
-    buttonsContainer.appendChild(clearbtn);
-    box.appendChild(buttonsContainer);
-    document.body.appendChild(box);
+    // uniform button styling
     const buttonStyle = {
-        background: 'rgba(80, 80, 80, 0.80)',
-        color: '#FFF',
-        fontFamily: 'monospace',
-        fontSize: '12px',
-        border: '1px solid #FFF',
-        borderRadius: '8px',
-        padding: '5px 10px',
-        userSelect: 'none',
+      background: 'rgba(80, 80, 80, 0.80)',
+      color: '#FFF',
+      fontFamily: 'monospace',
+      fontSize: '12px',
+      border: '1px solid #FFF',
+      borderRadius: '8px',
+      padding: '5px 10px',
+      userSelect: 'none',
     };
     Object.assign(Gbutton.style, buttonStyle);
     Object.assign(Dbutton.style, buttonStyle);
+    Object.assign(Cbutton.style, buttonStyle);
     Object.assign(clearbtn.style, buttonStyle);
     Object.assign(title.style, buttonStyle);
+
+    // append header stuff
+    headerButtons.appendChild(Gbutton);
+    headerButtons.appendChild(Dbutton);
+    headerButtons.appendChild(Cbutton);
+    headerButtons.appendChild(clearbtn);
+    headerRow.appendChild(title);
+    headerRow.appendChild(headerButtons);
+    box.appendChild(headerRow);
+
+    // small spacer if needed
+    const spacer = document.createElement('div');
+    spacer.style.height = '8px';
+    box.appendChild(spacer);
+
+    // --- log content area (flow child, not absolute) ---
+    const logContent = document.createElement('div');
+    Object.assign(logContent.style, {
+      width: '100%',
+      height: 'calc(100% - 40px)',
+      padding: '6px 8px',
+      boxSizing: 'border-box',
+      overflowY: 'auto',
+      color: '#FFF',
+      fontFamily: 'monospace',
+      fontSize: '12px',
+      lineHeight: '1.2em',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '4px'
+    });
+    box.appendChild(logContent);
+
+    // optional: small footer row or status line
+    const footer = document.createElement('div');
+    Object.assign(footer.style, {
+      marginTop: '6px',
+      fontSize: '11px',
+      opacity: '0.9',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center'
+    });
+
+    // add to document
+    document.body.appendChild(box);
+
 
 
 
@@ -126,6 +160,12 @@
     });
     Dbutton.addEventListener('mouseleave', () => {
         Dbutton.style.background = 'rgba(80, 80, 80, 0.80)';
+    });
+    Cbutton.addEventListener('mouseenter', () => {
+        Cbutton.style.background = 'rgba(100, 100, 100, 0.85)';
+    });
+    Cbutton.addEventListener('mouseleave', () => {
+        Cbutton.style.background = 'rgba(80, 80, 80, 0.80)';
     });
     clearbtn.addEventListener('mouseenter', () => {
         clearbtn.style.background = 'rgba(100, 100, 100, 0.85)';
@@ -174,6 +214,11 @@
         Dbutton.textContent = `dreamspace: ${dreamspaceenabled}`;
     });
 
+    Cbutton.addEventListener('click', () => {
+        if (cyberspaceenabled) {cyberspaceenabled = false; logBox("No longer sniping cyberspace");} else {cyberspaceenabled = true; logBox("Sniping cyberspace");}
+        Cbutton.textContent = `cyberspace: ${cyberspaceenabled}`;
+    });
+
     clearbtn.addEventListener('click', () => {
         logContent.innerHTML = '';
     });
@@ -208,6 +253,7 @@
     logBox('by .lunary.');
     if (!glitchenabled) {logBox("Glitch will not be sniped (glitchenabled = false)"); return} else {logBox("Glitch will be sniped");}
     if (!dreamspaceenabled) {logBox("Dreamspace will not be sniped (dreamspaceenabled = false)"); return} else {logBox("Dreamspace will be sniped");}
+    if (!cyberspaceenabled) {logBox("Cyberspace will not be sniped (cyberspaceenabled = false)"); return} else {logBox("Cyberspace will be sniped");}
 
     // get keyword list (took so long bro i suck at this)
     let processedMessageIds = new Set();
@@ -241,9 +287,11 @@
                logBox('fetched keyword data');
                requiredD = json.requiredD
                requiredG = json.requiredG
+               requiredC = json.requiredC
                ignoreKeywords = json.ignoreKeywords
                formattedRequiredG = formatKeywords(requiredG);
                formattedRequiredD = formatKeywords(requiredD);
+               formattedRequiredC = formatKeywords(requiredC);
                formattedIgnoreKeywords = formatKeywords(ignoreKeywords);
 
                setInterval(processLatestMessage, deeelay);
@@ -286,6 +334,7 @@
 
          let hasRequiredD = formattedRequiredD.some(keyword => textContent.includes(keyword.toLowerCase()));
          let hasRequiredG = formattedRequiredG.some(keyword => textContent.includes(keyword.toLowerCase()));
+         let hasRequiredC = formattedRequiredC.some(keyword => textContent.includes(keyword.toLowerCase()));
 
          // Check for ignore keywords
          let hasIgnoreKeyword = formattedIgnoreKeywords.some(keyword => textContent.includes(keyword.toLowerCase()));
@@ -293,6 +342,7 @@
          // Detect individual keyword matches
          const matchedRequiredD = formattedRequiredD.filter(k => textContent.includes(k.toLowerCase()));
          const matchedRequiredG = formattedRequiredG.filter(k => textContent.includes(k.toLowerCase()));
+         const matchedRequiredC = formattedRequiredC.filter(k => textContent.includes(k.toLowerCase()));
 
          const matchedIgnored = formattedIgnoreKeywords.filter(k => textContent.includes(k.toLowerCase()));
 
@@ -302,12 +352,15 @@
          if (matchedRequiredD.length === 0) {
              console.warn('Message skipped: missing required keywords.', { requiredKeywords: formattedRequiredD });
          }
+         if (matchedRequiredC.length === 0) {
+             console.warn('Message skipped: missing required keywords.', { requiredKeywords: formattedRequiredC });
+         }
 
          if (matchedIgnored.length > 0) {
              console.warn('Message skipped: contains ignored keywords.', { matchedIgnored });
          }
 
-         if (!hasRequiredG && !hasRequiredD || hasIgnoreKeyword || __checkpass__ || pleasewait) {
+         if (!hasRequiredG && !hasRequiredD && !hasRequiredC || hasIgnoreKeyword || __checkpass__ || pleasewait) {
              console.log(messageReal);
              pleasewait = false
              return;
@@ -318,14 +371,18 @@
 
          const robloxLinks = Array.from(links).filter(link => robloxLinkRegex.test(link.href));
          if (robloxLinks.length === 1) {
+
              if (hasRequiredG) {
-                 if (!glitchenabled) {logBox("ignored glitch"); return}
+                 if (!glitchenabled) {logBox("ignored glitch because it is turned off"); return}
                  logBox("Glitch..?");
-             }
-             if (hasRequiredD) {
-                 if (!dreamspaceenabled) {logBox("ignored dreamspace"); return;}
+             } else if (hasRequiredC) {
+                 if (!cyberspaceenabled) {logBox("ignored cyberspace because it is turned off"); return;}
+                 logBox("Cyberspace..?");
+             } else if (hasRequiredD) {
+                 if (!dreamspaceenabled) {logBox("ignored dreamspace because it is turned off"); return;}
                  logBox("Dreamspace..?");
              }
+
              __checkpass__ = true
              const originalLink = robloxLinks[0].href;
              const deeplink = convertToDeeplink(originalLink);
