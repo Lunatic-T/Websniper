@@ -2,7 +2,8 @@
 Hi, looks like you found my glitch sniper, leave a star if i got you into Glitch Biome!
 
 ![image](https://github.com/user-attachments/assets/20e71a2e-2722-4903-8829-941df09cf11f)
-<img width="727" height="341" alt="image" src="https://github.com/user-attachments/assets/4d99c692-20a2-498b-ae78-97ff2d20e34e" />
+<img width="605" height="254" alt="image" src="https://github.com/user-attachments/assets/465a09c7-f44b-4495-9df3-a6fdc2fb77da" />
+
 
 
 i wont be updating this anymore unless something is needed 
