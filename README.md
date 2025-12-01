@@ -1,5 +1,5 @@
 # Sol's RNG Sniper
-Hi, looks like you found my sol's rng sniper!
+Hi, looks like you found my Sol's RNG Sniper!
 
 <img width="605" height="254" alt="image" src="https://github.com/user-attachments/assets/465a09c7-f44b-4495-9df3-a6fdc2fb77da" />
 
@@ -16,8 +16,6 @@ Get [tampermonkey](https://www.tampermonkey.net/) Extension on your browser then
 Delete everything, Then Paste the Userscript.js text in it, then hit CTRL + S to save and move over to the [Sol's rng Biomes channel](https://discord.com/channels/1186570213077041233/1282542323590496277) on the discord website.
 
 Then make sure the script is running. Once it is running, you can keep the window open while doing whatever you want 
-
-### you can also minimize the discord tab or just leave it running in the bg
 
 
 ## Sniping:
