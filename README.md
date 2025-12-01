@@ -5,7 +5,7 @@ Hi, looks like you found my Sol's RNG Sniper!
 
 
 
-i wont be updating this anymore unless something is needed 
+Newest update: December 01, 2025 - updated for cyberspace! :D
 
 
 ## Usage:   
