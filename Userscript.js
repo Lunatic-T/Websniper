@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         websniper-cyberspace-update
 // @namespace    http://tampermonkey.net/
-// @version      1.2.1
+// @version      1.2.5
 // @description  hi, thanks for using my sniper <3, if you have issues dm me or join this server for more of my projects: discord.gg/7zuFCT8kYJ
 // @author       .lunary. on dc (dms open)
 // @match        https://discord.com/*
