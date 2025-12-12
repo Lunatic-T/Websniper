@@ -24,6 +24,10 @@ You can either minimize the discord tab or just keep it in the background and it
 
 Don't play Sol's RNG while sniping, it will delay the joining by 1-5 seconds because it unloads the game first before joining.
 
+To make sure it joins, open roblox by doing Win + R and enter "roblox://" then click enter, and now it will correctly join, this is just to make sure roblox is not bugging out when joining a link, roblox web client is known to be quite glitchy with joining. 
+
+**DO NOT USE BLOXSTRAP AND COMPLETELELY DELETE IT IF YOU'RE USING IT.**
+
 # Discord Server
 > https://discord.gg/7zuFCT8kYJ
 
