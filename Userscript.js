@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         websniper-cyberspace-update
 // @namespace    http://tampermonkey.net/
-// @version      1.2.5
-// @description  hi, thanks for using my sniper <3, if you have issues dm me or join this server for more of my projects: discord.gg/7zuFCT8kYJ
+// @version      1.2.5 - bug fixes
+// @description  hi, thanks for using my sniper <3, if you have issues dm me or join this server for updates: discord.gg/7zuFCT8kYJ
 // @author       .lunary. on dc (dms open)
 // @match        https://discord.com/*
 // @grant        GM_xmlhttpRequest
@@ -36,7 +36,7 @@
       padding: '10px',
       border: '1px solid #FFF',
       borderRadius: '8px',
-      zIndex: '999999',
+      zIndex: '9999999999999999999999999999999999999999999999',
       cursor: 'move',
       display: 'flex',
       flexDirection: 'column',
@@ -303,104 +303,151 @@
      let __checkpass__ = false
          // Function to process and click only the latest message
      function processLatestMessage() {
-         const messageContainer = document.querySelector('[class*="scrollerInner_"]');
-         if (!messageContainer) return;
+        const messageContainer = document.querySelector('ol[role="list"]');
 
-         const messages = messageContainer.querySelectorAll('[class^="message_"]');
-         const latestMessage = messages[messages.length - 1];
-         if (!latestMessage) return;
-         let messageReal = latestMessage.querySelector('[class*="messageContent"]');
-         if (!messageReal) {
-             // Try fallback: look for any div with text inside
-             const allDivs = latestMessage.querySelectorAll('div');
-             for (const div of allDivs) {
-                 if (div.textContent && div.textContent.includes('roblox.com')) {
-                     messageReal = div;
-                     break;
-                 }
-             }
-         }
+        if (!messageContainer) return;
 
-         if (!messageReal) {
-             console.error('Message content not found');
-             return;
-         }
-         const messageId = latestMessage.getAttribute('data-list-item-id');
-         if (processedMessageIds.has(messageId)) return;
-         processedMessageIds.add(messageId);
+        const messages = messageContainer.querySelectorAll('li[class*="messageListItem"]');
+        if (!messages || messages.length === 0) return;
+        const latestMessage = messages[messages.length - 1];
+        if (!latestMessage) return;
 
-         const textContent = messageReal.textContent.toLowerCase();
-         // Check for required keywords
+        let messageReal = latestMessage.querySelector('[id^="message-content-"]');
+        if (!messageReal) {
+            // fallback: find any div that contains a roblox link text
+            const allDivs = latestMessage.querySelectorAll('div');
+            for (const div of allDivs) {
+                if (div.textContent && div.textContent.toLowerCase().includes('roblox.com')) {
+                    messageReal = div;
+                    break;
+                }
+            }
+        }
+        if (!messageReal) {
+            console.error('Message content not found for latest message');
+            return;
+        }
 
-         let hasRequiredD = formattedRequiredD.some(keyword => textContent.includes(keyword.toLowerCase()));
-         let hasRequiredG = formattedRequiredG.some(keyword => textContent.includes(keyword.toLowerCase()));
-         let hasRequiredC = formattedRequiredC.some(keyword => textContent.includes(keyword.toLowerCase()));
+        // Use a stable identifier for the message. If data-list-item-id missing, use element reference
+        let messageId = latestMessage.querySelector('[data-list-item-id]')?.getAttribute('data-list-item-id');
+        let useElementKey = false;
+        if (!messageId) {
+            // fallback key — this will be unique per DOM node instance
+            messageId = 'el-' + (latestMessage.__snId || (latestMessage.__snId = Math.random().toString(36).slice(2)));
+            useElementKey = true;
+        }
 
-         // Check for ignore keywords
-         let hasIgnoreKeyword = formattedIgnoreKeywords.some(keyword => textContent.includes(keyword.toLowerCase()));
+        // If we've already fully processed this message, skip
+        if (processedMessageIds.has(messageId)) {
+            //console.debug('Already processed messageId', messageId);
+            return;
+        }
 
-         // Detect individual keyword matches
-         const matchedRequiredD = formattedRequiredD.filter(k => textContent.includes(k.toLowerCase()));
-         const matchedRequiredG = formattedRequiredG.filter(k => textContent.includes(k.toLowerCase()));
-         const matchedRequiredC = formattedRequiredC.filter(k => textContent.includes(k.toLowerCase()));
+        const textContent = messageReal.textContent.toLowerCase();
 
-         const matchedIgnored = formattedIgnoreKeywords.filter(k => textContent.includes(k.toLowerCase()));
+        // keyword checks
+        let hasRequiredD = formattedRequiredD.some(keyword => keyword && textContent.includes(keyword.toLowerCase()));
+        let hasRequiredG = formattedRequiredG.some(keyword => keyword && textContent.includes(keyword.toLowerCase()));
+        let hasRequiredC = formattedRequiredC.some(keyword => keyword && textContent.includes(keyword.toLowerCase()));
+        let hasIgnoreKeyword = formattedIgnoreKeywords.some(keyword => keyword && textContent.includes(keyword.toLowerCase()));
 
-         if (matchedRequiredG.length === 0) {
-             console.warn('Message skipped: missing required keywords.', { requiredKeywords: formattedRequiredG });
-         }
-         if (matchedRequiredD.length === 0) {
-             console.warn('Message skipped: missing required keywords.', { requiredKeywords: formattedRequiredD });
-         }
-         if (matchedRequiredC.length === 0) {
-             console.warn('Message skipped: missing required keywords.', { requiredKeywords: formattedRequiredC });
-         }
-
+        const matchedRequiredD = formattedRequiredD.filter(k => k && textContent.includes(k.toLowerCase()));
+        const matchedRequiredG = formattedRequiredG.filter(k => k && textContent.includes(k.toLowerCase()));
+        const matchedRequiredC = formattedRequiredC.filter(k => k && textContent.includes(k.toLowerCase()));
+        const matchedIgnored = formattedIgnoreKeywords.filter(k => k && textContent.includes(k.toLowerCase()));
          if (matchedIgnored.length > 0) {
              console.warn('Message skipped: contains ignored keywords.', { matchedIgnored });
          }
 
-         if (!hasRequiredG && !hasRequiredD && !hasRequiredC || hasIgnoreKeyword || __checkpass__ || pleasewait) {
-             console.log(messageReal);
-             pleasewait = false
-             return;
-         }
+        // Debug warnings (keeps you informed)
+        if (matchedRequiredG.length === 0) console.warn('No requiredG found in message', { matchedRequiredG });
+        if (matchedRequiredD.length === 0) console.warn('No requiredD found in message', { matchedRequiredD });
+        if (matchedRequiredC.length === 0) console.warn('No requiredC found in message', { matchedRequiredC });
+        if (matchedIgnored.length > 0) console.warn('Message contains ignored keywords', { matchedIgnored });
 
-         const links = messageReal.querySelectorAll('a');
-         const robloxLinkRegex = /https:\/\/www\.roblox\.com\/(?:games\/\d+\/[^\s?]+(?:\?[^ ]*)?|share\?code=[a-z0-9]+[^ ]*)/i;
+        // MAIN gating condition:
+        // require at least one of the groups (G or D or C), and reject if ignore matched or a global checkpass lock is enabled
+        if ((!hasRequiredG && !hasRequiredD && !hasRequiredC) || hasIgnoreKeyword || __checkpass__ || pleasewait) {
+            // Do not mark as fully processed if pleasewait or temporary condition -- allow re-check later
+            // Only mark as processed if it contains ignore keywords (we will never process these) to avoid re-checking forever:
+            if (hasIgnoreKeyword) {
+                processedMessageIds.add(messageId); // never process ignored messages again
+            }
+            // If it's a one-off temporary skip (pleasewait/__checkpass__), do not add to processedMessageIds so it will be retried
+            console.debug('Skipping message for now (gating/ignore/lock):', { hasRequiredG, hasRequiredD, hasRequiredC, hasIgnoreKeyword, __checkpass__, pleasewait, messageId });
+            // ensure pleasewait is false so it won't permanently block future messages (if you intentionally wanted a cooldown, handle separately)
+            pleasewait = false;
+            return;
+        }
 
-         const robloxLinks = Array.from(links).filter(link => robloxLinkRegex.test(link.href));
-         if (robloxLinks.length === 1) {
+        // find roblox link anchors inside message
+        const links = messageReal.querySelectorAll('a[href]');
+        // improved permissive roblox regex (handles long codes, query params)
+        const robloxLinkRegex = /https?:\/\/(?:www\.)?roblox\.com\/(?:games\/\d+\/[^\s?\/]+(?:\?[^ \s]*)?|share\?code=[A-Za-z0-9_-]+)/i;
+        const robloxLinks = Array.from(links).filter(link => robloxLinkRegex.test(link.href));
 
-             if (hasRequiredG) {
-                 if (!glitchenabled) {logBox("ignored glitch because it is turned off"); return}
-                 logBox("Glitch..?");
-             } else if (hasRequiredC) {
-                 if (!cyberspaceenabled) {logBox("ignored cyberspace because it is turned off"); return;}
-                 logBox("Cyberspace..?");
-             } else if (hasRequiredD) {
-                 if (!dreamspaceenabled) {logBox("ignored dreamspace because it is turned off"); return;}
-                 logBox("Dreamspace..?");
-             }
+        if (robloxLinks.length === 0) {
+            // no link found — mark as processed to avoid infinite retries
+            processedMessageIds.add(messageId);
+            console.debug('No roblox links found in latest message; marking processed', messageId);
+            return;
+        }
 
-             __checkpass__ = true
-             const originalLink = robloxLinks[0].href;
-             const deeplink = convertToDeeplink(originalLink);
-             if (deeplink) {
-                 robloxLinks[0].href = deeplink;
-                 robloxLinks[0].textContent = deeplink;
-                 window.open(deeplink, '_self');
-                 window.open(deeplink, '_self');
-                 window.open(deeplink, '_self');
-                 logBox(`Launched in client`)
-                 audio.play().catch(err => {
-                 console.warn("Sound playback failed (usually due to browser autoplay policy):", err);
-                 });
-                 setTimeout(() => {
-                      __checkpass__ = false
-                 }, 3000);
-             }
-         }
-     }
+        // only handle single-link messages (keeps behavior consistent)
+        if (robloxLinks.length === 1) {
+            // decide which mode from matched keywords
+            if (hasRequiredG && !glitchenabled) { logBox("ignored glitch because it is turned off"); processedMessageIds.add(messageId); return; }
+            if (hasRequiredC && !cyberspaceenabled) { logBox("ignored cyberspace because it is turned off"); processedMessageIds.add(messageId); return; }
+            if (hasRequiredD && !dreamspaceenabled) { logBox("ignored dreamspace because it is turned off"); processedMessageIds.add(messageId); return; }
+
+            // OK, process it
+            __checkpass__ = true;
+            const originalLink = robloxLinks[0].href;
+
+            // improved convertToDeeplink: use more permissive capture for code
+            const convertToDeeplinkImproved = (link) => {
+                const shareRegex = /https?:\/\/(?:www\.)?roblox\.com\/share\?code=([^&\s]+)/i;
+                const gamesRegex = /https?:\/\/(?:www\.)?roblox\.com\/games\/(\d+)\/[^\s?]+(?:\?[^ ]*privateServerLinkCode=([^&\s]+))?/i;
+                let m = link.match(shareRegex);
+                if (m) return `roblox://navigation/share_links?code=${m[1]}&type=Server&pid=share&is_retargeting=true`;
+                m = link.match(gamesRegex);
+                if (m) {
+                    const placeId = m[1];
+                    const linkCode = m[2] || '';
+                    return linkCode ? `roblox://placeID=${placeId}&linkCode=${linkCode}` : `roblox://placeID=${placeId}`;
+                }
+                return null;
+            };
+
+            const deeplink = convertToDeeplinkImproved(originalLink);
+            if (deeplink) {
+                // rewrite and launch
+                robloxLinks[0].href = deeplink;
+                robloxLinks[0].textContent = deeplink;
+                // open in client (multiple opens as in your code)
+                window.open(deeplink, '_self');
+                window.open(deeplink, '_self');
+                window.open(deeplink, '_self');
+                logBox(`Launched in client`);
+                audio.play().catch(err => console.warn("Audio failed:", err));
+                // mark message as processed so we don't reopen it again
+                processedMessageIds.add(messageId);
+                // short cooldown before allowing another processed message
+                setTimeout(() => { __checkpass__ = false; }, 3000);
+                return;
+            } else {
+                console.error('Failed to convert link to deeplink:', originalLink);
+                // mark processed so we don't spam
+                processedMessageIds.add(messageId);
+                __checkpass__ = false;
+                return;
+            }
+        } else {
+            // multiple links - skip and mark processed
+            processedMessageIds.add(messageId);
+            console.debug('Multiple roblox links found; skipping', messageId);
+            return;
+        }
+    }
     init();
 })();
