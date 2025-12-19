@@ -426,8 +426,6 @@
                 robloxLinks[0].textContent = deeplink;
                 // open in client (multiple opens as in your code)
                 window.open(deeplink, '_self');
-                window.open(deeplink, '_self');
-                window.open(deeplink, '_self');
                 logBox(`Launched in client`);
                 audio.play().catch(err => console.warn("Audio failed:", err));
                 // mark message as processed so we don't reopen it again
