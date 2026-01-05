@@ -155,7 +155,8 @@
          "popping<space>snowglobe",
          "using<space>globe",
          "snowglo",
-         "snow<space>glo"
+         "snow<space>glo",
+         "snowglobe"
   ],
 
   "ignoreKeywords": [
