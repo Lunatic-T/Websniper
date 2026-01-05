@@ -150,7 +150,10 @@
   "requiredA": [
          "auror",
          "rora",
-         "urora"
+         "urora",
+         "using<space>snowglobe",
+         "popping<space>snowglobe",
+         "using<space>globe"
   ],
 
   "ignoreKeywords": [
