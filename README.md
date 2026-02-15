@@ -4,8 +4,9 @@ Hi, looks like you found my Sol's RNG Sniper!
 <img width="605" height="254" alt="image" src="https://github.com/user-attachments/assets/465a09c7-f44b-4495-9df3-a6fdc2fb77da" />
 
 
+(image above is an old image btw)
 
-Newest update: December 01, 2025 - updated for cyberspace! :D
+Newest update: February 15 - Custom keyword implementation fr 
 
 
 ## Usage:   
@@ -22,7 +23,9 @@ Then make sure the script is running. Once it is running, you can keep the windo
 
 You can either minimize the discord tab or just keep it in the background and it will snipe for you. 
 
-Don't play Sol's RNG while sniping, it will delay the joining by 1-5 seconds because it unloads the game first before joining.
+To set custom keywords you modify the "custom_keywords" object in the script!
+
+Don't play Sol's RNG while sniping, it will delay the joining by 5-15 seconds because it unloads the game first before joining.
 
 To make sure it joins, open roblox by doing Win + R and enter "roblox://" then click enter, and now it will correctly join, this is just to make sure roblox is not bugging out when joining a link, roblox web client is known to be quite glitchy with joining. 
 
