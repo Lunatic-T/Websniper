@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         websniper-cyberspace-update
+// @name         websniper-custom-keywords-upd
 // @namespace    http://tampermonkey.net/
-// @version      1.2.5 - bug fixes
+// @version      1.3 - custom keywords!
 // @description  hi, thanks for using my sniper <3, if you have issues dm me or join this server for updates: discord.gg/7zuFCT8kYJ
 // @author       .lunary. on dc (dms open)
 // @match        https://discord.com/*
@@ -10,12 +10,23 @@
 // @run-at       document-end
 // ==/UserScript==
 
+
+
+// CUSTOM KEYWORDS HERE!!
+const custom_keywords = [
+    "aidioauzdabiuda",
+    "wegrdgfhngfnf",
+    "wagsgsgegag"
+];
+
+
 (async function() {
     'use strict';
     let dreamspaceenabled = true
     let cyberspaceenabled = true
     let glitchenabled = true
-    let formattedRequiredG = [], formattedRequiredD = [], formattedRequiredC = [], formattedIgnoreKeywords = [], ignoreKeywords = [], requiredG = [], requiredD = [], requiredC = [];
+    let customenabled = false
+    let formattedRequiredG = [], formattedRequiredD = [], formattedRequiredC = [], formattedRequiredCustom = [], formattedIgnoreKeywords = [], ignoreKeywords = [], requiredG = [], requiredD = [], requiredC = [], requiredCustom = [];
     const audio = new Audio("put a .mp3 or any other form of audio link here (might have issues playing due to reaching to another site)"); // this is the sound that plays when a link is sniped
 
     // --- outer box (keep yours or replace with this) ---
@@ -25,8 +36,8 @@
       position: 'fixed',
       top: '10px',
       right: '10px',
-      width: '600px',
-      height: '250px',
+      width: '800px',
+      height: '300px',
       background: 'rgba(100, 100, 100, 0.5)',
       backdropFilter: 'blur(8px)',
       WebkitBackdropFilter: 'blur(8px)',
@@ -79,6 +90,8 @@
     Dbutton.textContent = `dreamspace: ${dreamspaceenabled}`;
     const Cbutton = document.createElement('button');
     Cbutton.textContent = `cyberspace: ${cyberspaceenabled}`;
+    const Custombutton = document.createElement('button');
+    Custombutton.textContent = `custom keywords: ${customenabled}`;
     const clearbtn = document.createElement('button');
     clearbtn.textContent = 'clear logs';
 
@@ -96,6 +109,7 @@
     Object.assign(Gbutton.style, buttonStyle);
     Object.assign(Dbutton.style, buttonStyle);
     Object.assign(Cbutton.style, buttonStyle);
+    Object.assign(Custombutton.style, buttonStyle);
     Object.assign(clearbtn.style, buttonStyle);
     Object.assign(title.style, buttonStyle);
 
@@ -103,6 +117,7 @@
     headerButtons.appendChild(Gbutton);
     headerButtons.appendChild(Dbutton);
     headerButtons.appendChild(Cbutton);
+    headerButtons.appendChild(Custombutton);
     headerButtons.appendChild(clearbtn);
     headerRow.appendChild(title);
     headerRow.appendChild(headerButtons);
@@ -167,6 +182,12 @@
     Cbutton.addEventListener('mouseleave', () => {
         Cbutton.style.background = 'rgba(80, 80, 80, 0.80)';
     });
+    Custombutton.addEventListener('mouseenter', () => {
+        Custombutton.style.background = 'rgba(100, 100, 100, 0.85)';
+    });
+    Custombutton.addEventListener('mouseleave', () => {
+        Custombutton.style.background = 'rgba(80, 80, 80, 0.80)';
+    });
     clearbtn.addEventListener('mouseenter', () => {
         clearbtn.style.background = 'rgba(100, 100, 100, 0.85)';
     });
@@ -219,6 +240,11 @@
         Cbutton.textContent = `cyberspace: ${cyberspaceenabled}`;
     });
 
+    Custombutton.addEventListener('click', () => {
+        if (customenabled) {customenabled = false; logBox("No longer using custom keywords");} else {customenabled = true; logBox("Using custom keywords");}
+        Custombutton.textContent = `custom keywords: ${customenabled}`;
+    });
+
     clearbtn.addEventListener('click', () => {
         logContent.innerHTML = '';
     });
@@ -251,36 +277,29 @@
     }
 
     logBox('by .lunary.');
-    if (!glitchenabled) {logBox("Glitch will not be sniped (glitchenabled = false)"); return} else {logBox("Glitch will be sniped");}
-    if (!dreamspaceenabled) {logBox("Dreamspace will not be sniped (dreamspaceenabled = false)"); return} else {logBox("Dreamspace will be sniped");}
-    if (!cyberspaceenabled) {logBox("Cyberspace will not be sniped (cyberspaceenabled = false)"); return} else {logBox("Cyberspace will be sniped");}
+
+    if (!glitchenabled) logBox("Glitch will not be sniped");
+    else logBox("Glitch will be sniped");
+
+    if (!dreamspaceenabled) logBox("Dreamspace will not be sniped");
+    else logBox("Dreamspace will be sniped");
+
+    if (!cyberspaceenabled) logBox("Cyberspace will not be sniped");
+    else logBox("Cyberspace will be sniped");
+
+    if (!customenabled) logBox("Not using custom keywords");
+    else logBox("Using custom keywords");
 
     // get keyword list (took so long bro i suck at this)
     let processedMessageIds = new Set();
     let deeelay = 25
     let pleasewait = true
 
-    function convertToDeeplink(link) {
-         const regex = /https:\/\/www\.roblox\.com\/share\?code=([a-zA-Z0-9]+)/;
-         const regex2 = /https:\/\/www\.roblox\.com\/games\/15532962292\/[^\s?]+(?:\?privateServerLinkCode=([a-zA-Z0-9]+))?/;
-         const match = link.match(regex);
-         const match2 = link.match(regex2);
-         if (match) {
-             const accessCode = match[1];
-             const deeplink = `roblox://navigation/share_links?code=${accessCode}&type=Server&pid=share&is_retargeting=true`;
-             logBox(`Converted`);
-             return deeplink;
-         }
-         if (match2) {
-             const accessCode2 = match2[1];
-             const deeplink2 = `roblox://placeID=15532962292&linkCode=${accessCode2}`;
-             logBox(`Converted`);
-             return deeplink2;
-         }
-         logBox(`Invalid: ${link}`);
-         return null;
-     }
-     const formatKeywords = (keywords) => keywords.map(keyword => keyword.replace(/<space>/g, ' '));
+     const formatKeywords = (keywords) =>
+    Array.isArray(keywords)
+        ? keywords.map(keyword => keyword.replace(/<space>/g, ' '))
+        : [];
+
        async function init() {
            try {
                const json = await fetchJSON('https://raw.githubusercontent.com/Lunatic-T/Websniper/main/Keywords.json');
@@ -288,10 +307,13 @@
                requiredD = json.requiredD
                requiredG = json.requiredG
                requiredC = json.requiredC
+               requiredCustom = custom_keywords
+
                ignoreKeywords = json.ignoreKeywords
                formattedRequiredG = formatKeywords(requiredG);
                formattedRequiredD = formatKeywords(requiredD);
                formattedRequiredC = formatKeywords(requiredC);
+               formattedRequiredCustom = formatKeywords(requiredCustom);
                formattedIgnoreKeywords = formatKeywords(ignoreKeywords);
 
                setInterval(processLatestMessage, deeelay);
@@ -346,36 +368,39 @@
         const textContent = messageReal.textContent.toLowerCase();
 
         // keyword checks
-        let hasRequiredD = formattedRequiredD.some(keyword => keyword && textContent.includes(keyword.toLowerCase()));
-        let hasRequiredG = formattedRequiredG.some(keyword => keyword && textContent.includes(keyword.toLowerCase()));
-        let hasRequiredC = formattedRequiredC.some(keyword => keyword && textContent.includes(keyword.toLowerCase()));
-        let hasIgnoreKeyword = formattedIgnoreKeywords.some(keyword => keyword && textContent.includes(keyword.toLowerCase()));
+        let hasRequiredD = formattedRequiredD.some(keyword => keyword && textContent.includes(keyword));
+        let hasRequiredG = formattedRequiredG.some(keyword => keyword && textContent.includes(keyword));
+        let hasRequiredC = formattedRequiredC.some(keyword => keyword && textContent.includes(keyword));
+        let hasRequiredCustom = formattedRequiredCustom.some(keyword => keyword && textContent.includes(keyword));
+        let hasIgnoreKeyword = formattedIgnoreKeywords.some(keyword => keyword && textContent.includes(keyword));
 
         const matchedRequiredD = formattedRequiredD.filter(k => k && textContent.includes(k.toLowerCase()));
         const matchedRequiredG = formattedRequiredG.filter(k => k && textContent.includes(k.toLowerCase()));
         const matchedRequiredC = formattedRequiredC.filter(k => k && textContent.includes(k.toLowerCase()));
+        const matchedRequiredCustom = formattedRequiredCustom.filter(k => k && textContent.includes(k.toLowerCase()));
         const matchedIgnored = formattedIgnoreKeywords.filter(k => k && textContent.includes(k.toLowerCase()));
          if (matchedIgnored.length > 0) {
              console.warn('Message skipped: contains ignored keywords.', { matchedIgnored });
          }
 
-        // Debug warnings (keeps you informed)
-        if (matchedRequiredG.length === 0) console.warn('No requiredG found in message', { matchedRequiredG });
-        if (matchedRequiredD.length === 0) console.warn('No requiredD found in message', { matchedRequiredD });
-        if (matchedRequiredC.length === 0) console.warn('No requiredC found in message', { matchedRequiredC });
-        if (matchedIgnored.length > 0) console.warn('Message contains ignored keywords', { matchedIgnored });
+        // Debug warnings (remove the // at the start of each line below this to toggle it on)
+        // if (matchedRequiredG.length === 0) console.warn('No requiredG found in message', { matchedRequiredG });
+        // if (matchedRequiredD.length === 0) console.warn('No requiredD found in message', { matchedRequiredD });
+        // if (matchedRequiredC.length === 0) console.warn('No requiredC found in message', { matchedRequiredC });
+        // if (matchedRequiredCustom.length === 0) console.warn('No requiredCustom found in message', { matchedRequiredCustom });
+        // if (matchedIgnored.length > 0) console.warn('Message contains ignored keywords', { matchedIgnored });
 
         // MAIN gating condition:
         // require at least one of the groups (G or D or C), and reject if ignore matched or a global checkpass lock is enabled
-        if ((!hasRequiredG && !hasRequiredD && !hasRequiredC) || hasIgnoreKeyword || __checkpass__ || pleasewait) {
+        if ((!hasRequiredG && !hasRequiredD && !hasRequiredC && !hasRequiredCustom) || hasIgnoreKeyword || __checkpass__ || pleasewait) {
             // Do not mark as fully processed if pleasewait or temporary condition -- allow re-check later
             // Only mark as processed if it contains ignore keywords (we will never process these) to avoid re-checking forever:
             if (hasIgnoreKeyword) {
                 processedMessageIds.add(messageId); // never process ignored messages again
             }
             // If it's a one-off temporary skip (pleasewait/__checkpass__), do not add to processedMessageIds so it will be retried
-            console.debug('Skipping message for now (gating/ignore/lock):', { hasRequiredG, hasRequiredD, hasRequiredC, hasIgnoreKeyword, __checkpass__, pleasewait, messageId });
-            // ensure pleasewait is false so it won't permanently block future messages (if you intentionally wanted a cooldown, handle separately)
+            console.debug('Skipping message for now (gating/ignore/lock):', { hasRequiredG, hasRequiredD, hasRequiredC, hasRequiredCustom, hasIgnoreKeyword, __checkpass__, pleasewait, messageId });
+            // ensure pleasewait is false to prevent blocking
             pleasewait = false;
             return;
         }
@@ -397,15 +422,15 @@
         if (robloxLinks.length === 1) {
             // decide which mode from matched keywords
             if (hasRequiredG && !glitchenabled) { logBox("ignored glitch because it is turned off"); processedMessageIds.add(messageId); return; }
-            if (hasRequiredC && !cyberspaceenabled) { logBox("ignored cyberspace because it is turned off"); processedMessageIds.add(messageId); return; }
             if (hasRequiredD && !dreamspaceenabled) { logBox("ignored dreamspace because it is turned off"); processedMessageIds.add(messageId); return; }
-
+            if (hasRequiredC && !cyberspaceenabled) { logBox("ignored cyberspace because it is turned off"); processedMessageIds.add(messageId); return; }
+            if (hasRequiredCustom && !customenabled) { logBox("ignored message containing custom keywords"); processedMessageIds.add(messageId); return; }
             // OK, process it
             __checkpass__ = true;
             const originalLink = robloxLinks[0].href;
 
-            // improved convertToDeeplink: use more permissive capture for code
-            const convertToDeeplinkImproved = (link) => {
+            // improved convertToDeeplink
+            const convertToDeeplink = (link) => {
                 const shareRegex = /https?:\/\/(?:www\.)?roblox\.com\/share\?code=([^&\s]+)/i;
                 const gamesRegex = /https?:\/\/(?:www\.)?roblox\.com\/games\/(\d+)\/[^\s?]+(?:\?[^ ]*privateServerLinkCode=([^&\s]+))?/i;
                 let m = link.match(shareRegex);
@@ -419,12 +444,12 @@
                 return null;
             };
 
-            const deeplink = convertToDeeplinkImproved(originalLink);
+            const deeplink = convertToDeeplink(originalLink);
             if (deeplink) {
                 // rewrite and launch
                 robloxLinks[0].href = deeplink;
                 robloxLinks[0].textContent = deeplink;
-                // open in client (multiple opens as in your code)
+                // open in client 
                 window.open(deeplink, '_self');
                 logBox(`Launched in client`);
                 audio.play().catch(err => console.warn("Audio failed:", err));
