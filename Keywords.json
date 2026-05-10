@@ -135,6 +135,24 @@
          "cybrespace",
          "cybrrspace"
   ],
+    "requiredS": [
+         "singula",
+         "catalyst",
+         "catalist",
+         "alyst",
+         "gularity",
+         "singu",
+         "syngu",
+         "sngularity",
+         "singlerity",
+         "singuler",
+         "senguleri",
+         "sengulari",
+         "singularity<space>catalyst",
+         "atalsyt",
+         "ctaalyst",
+         "snigularity"
+  ],
   "requiredJ": [
          "jester",
          "jeter",
@@ -160,6 +178,7 @@
   ],
 
   "ignoreKeywords": [
+         "someone",
          "hunt",
          "https://www.roblox.com/share?code=9d338173d1319d46843707848ac6e0d0&type=Server",
          "hear",
