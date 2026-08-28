@@ -4,7 +4,7 @@ Hi, looks like you found my Sol's RNG Sniper!
 <img width="605" height="254" alt="image" src="https://github.com/user-attachments/assets/465a09c7-f44b-4495-9df3-a6fdc2fb77da" />
 
 
-(image above is an old image btw)
+(image above is an old image btw, I've added custom keywords by now.)
 
 Newest update: February 15 - Custom keyword implementation fr 
 
