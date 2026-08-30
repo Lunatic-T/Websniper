@@ -295,9 +295,9 @@ const custom_keywords = [
     let deeelay = 25
     let pleasewait = true
 
-     const formatKeywords = (keywords) =>
+    const formatKeywords = (keywords) =>
     Array.isArray(keywords)
-        ? keywords.map(keyword => keyword.replace(/<space>/g, ' '))
+        ? keywords.map(keyword => String(keyword).replace(/<space>/g, ' '))
         : [];
 
        async function init() {
