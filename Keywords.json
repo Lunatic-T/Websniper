@@ -153,6 +153,23 @@
          "ctaalyst",
          "snigularity"
   ],
+    "requiredRF": [
+         "diant<space>fores",
+         "awning<space>radia",
+         "umoning<space>radia",
+         "ummoning<space>radia",
+         "summoning<space>radiant",
+         "spawning<space>radia",
+         "using<space>condens",
+         "spawning<space>cond",
+         "using<space>radia",
+         "awning<space>rf",
+         "ummoning<space>rf",
+         "umoning<space>rf",
+         "forest<space>using<space>cond",
+         "lost<space>forest<space>using<space>radia",
+         "lost<space>forest<space>spawning<space>radia"
+  ],
   "requiredJ": [
          "jester",
          "jeter",
@@ -164,7 +181,6 @@
          "<space>op",
          "ivion"
   ],
-
   "requiredA": [
          "auror",
          "rora",
@@ -176,7 +192,6 @@
          "snow<space>glo",
          "snowglobe"
   ],
-
   "ignoreKeywords": [
          "someone",
          "hunt",
